@@ -84,3 +84,5 @@ Use small animations for page loading, buttons, and cards. Motion should feel sm
 ## Branding
 
 Use game images, player badges, ranking icons, and esports-style graphics to give the app character. These details should support the content instead of distracting from it.
+
+Checking main
