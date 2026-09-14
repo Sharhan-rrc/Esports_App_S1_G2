@@ -1,0 +1,46 @@
+.profile {
+  background-color: #0d0d0d;
+  color: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+}
+ 
+.profile__header {
+  margin-bottom: 1.5rem;
+}
+ 
+.profile__title {
+  font-size: 1.8rem;
+  margin-bottom: 0.4rem;
+}
+ 
+.profile__username {
+  color: #cfcfcf;
+}
+ 
+.profile__subtitle {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+ 
+.profile__games-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+ 
+.profile__game-card {
+  background-color: #1a1a1a;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 0 12px rgba(138, 43, 226, 0.4);
+}
+ 
+.profile__game-name {
+  font-size: 1.1rem;
+  margin-bottom: 0.6rem;
+}
+ 
+.profile__game-detail span {
+  color: #00ff9c;
+}
