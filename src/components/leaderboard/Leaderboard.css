@@ -1,0 +1,44 @@
+.leaderboard {
+  background-color: var(--bg);
+  color: var(--text-h);
+  padding: 2rem;
+  border-radius: 12px;
+}
+
+.leaderboard__header {
+  margin-bottom: 1.5rem;
+}
+
+.leaderboard__title {
+  font-size: 1.8rem;
+  margin-bottom: 0.4rem;
+}
+
+.leaderboard__description {
+  color: var(--text);
+}
+
+.leaderboard__table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.leaderboard__table th,
+.leaderboard__table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.leaderboard__table th {
+  background-color: var(--surface);
+}
+
+.leaderboard__table tr:nth-child(even) {
+  background-color: var(--input);
+}
+
+.leaderboard__table tr:nth-child(odd) {
+  background-color: var(--surface);
+}

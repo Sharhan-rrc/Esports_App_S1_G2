@@ -1,3 +1,127 @@
+.app-shell {
+  display: flex;
+  width: 100%;
+  min-height: 100svh;
+  background: var(--bg);
+}
+
+.app-sidebar {
+  display: flex;
+  flex: 0 0 188px;
+  flex-direction: column;
+  min-height: 100svh;
+  padding: 1.75rem 0.85rem 1rem;
+  box-sizing: border-box;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+}
+
+.app-brand {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 2.5rem;
+  color: var(--text-h);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.app-brand__mark {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--accent-border);
+  border-radius: 7px;
+  color: var(--accent);
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+}
+
+.app-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.app-nav__button {
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  width: 100%;
+  min-height: 5.25rem;
+  padding: 0.85rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  color: var(--text);
+  background: transparent;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 650;
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.app-nav__button:hover,
+.app-nav__button--active {
+  border-color: var(--accent-border);
+  background: var(--panel);
+  color: var(--accent);
+}
+
+.app-nav__button:hover {
+  transform: translateY(-2px);
+}
+
+.app-nav__button svg {
+  width: 1.65rem;
+  height: 1.65rem;
+  stroke-width: 1.8;
+}
+
+.app-content {
+  flex: 1;
+  min-width: 0;
+  padding: 1.25rem;
+  background: var(--bg);
+}
+
+@media (max-width: 620px) {
+  .app-shell {
+    flex-direction: column;
+  }
+
+  .app-sidebar {
+    flex: none;
+    min-height: auto;
+    padding: 0.8rem 0.65rem 0.65rem;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .app-brand {
+    display: none;
+  }
+
+  .app-nav {
+    flex-direction: row;
+    justify-content: center;
+    gap: 0.35rem;
+  }
+
+  .app-nav__button {
+    min-height: 4.2rem;
+    max-width: 7rem;
+  }
+
+  .app-content {
+    padding: 0.65rem;
+  }
+}
+
 .counter {
   font-size: 16px;
   padding: 5px 10px;

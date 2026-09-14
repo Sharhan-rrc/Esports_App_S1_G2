@@ -1,6 +1,22 @@
-# React + TypeScript + Vite
+# Esports App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An esports-themed React and TypeScript application with a mock login and three connected views: Dashboard, Leaderboard, and Profile.
+
+## Run Locally
+
+```bash
+npm install
+npm run dev
+```
+
+## Validate
+
+```bash
+npm run lint
+npm run build
+```
+
+The app uses a dark charcoal interface with gold navigation accents. See [Styles.md](Styles.md) for the shared visual guidelines and [Project_Details.md](Project_Details.md) for the team feature breakdown.
 
 Currently, two official plugins are available:
 
@@ -76,3 +92,6 @@ export default defineConfig([
 ])
 
 ```
+
+
+Deploying again for vercel as sharhan to check it

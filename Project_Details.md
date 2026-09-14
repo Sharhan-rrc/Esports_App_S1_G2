@@ -6,8 +6,8 @@
 
 --  Summary With Clear Team Tasks  --
 
-Project: Esports Hub (Demo Version)
-A simple esports‑themed web application built with React. The app includes a login page and three main features, each developed by a different team member.
+Project: Esports App (Demo Version)
+A simple esports-themed web application built with React. After the mock login, users can switch between the dashboard, leaderboard, and player profile from the dark sidebar navigation.
 
 Team Responsibilities -
 
@@ -66,6 +66,12 @@ Shared Feature
 Login Page (All Members)
 Simple login UI (email + password)
 
-No real authentication - just a mock login that redirects to the dashboard
+No real authentication - just a mock login that opens the app dashboard
+
+Navigation
+Shared app navigation connects the Dashboard, Leaderboard, and Profile views.
+
+Visual Direction
+The app uses a dark charcoal theme with gold navigation accents. Purple, blue, green, and red are reserved for actions and status information.
 
 Rough Checklist -
