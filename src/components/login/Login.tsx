@@ -1,7 +1,11 @@
 import React from "react";
 import "./Login.css";
 
-const Login: React.FC = () => {
+type LoginProps = {
+  onLogin: () => void;
+};
+
+const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const benefits = [
     "Track your game stats",
     "Compete on leaderboards",
@@ -11,7 +15,13 @@ const Login: React.FC = () => {
   return (
     <section className="login">
       <h1 className="login__title">Esports Hub Login</h1>
-      <form className="login__form">
+      <form
+        className="login__form"
+        onSubmit={(event) => {
+          event.preventDefault();
+          onLogin();
+        }}
+      >
         <label className="login__label">
           Email
           <input
