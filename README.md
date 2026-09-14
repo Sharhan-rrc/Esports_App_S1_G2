@@ -76,3 +76,6 @@ export default defineConfig([
 ])
 
 ```
+
+
+Deploying again for vercel as sharhan to check it
