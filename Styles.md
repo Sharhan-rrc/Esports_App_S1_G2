@@ -1,59 +1,69 @@
-# Esports Hub Style Guide
+# Esports App Style Guide
 
 ## Overall Style
 
-Esports Hub should look dark, modern, and energetic. The design should make games, player names, scores, and live streams easy to find.
+Esports App uses a dark, focused interface for browsing games, player statistics, live streams, and rankings. The layout should stay simple so important information is easy to scan.
 
-Keep the layout clean. Use bright colors for important actions and information, but do not add a glow to everything.
+Use gold for the main navigation accent and purple, blue, green, and red only when they communicate a specific status or action. Avoid decorative glow effects.
 
 ## Colors
 
-Background: #0D0D0D
+Page background: #111317
 
-Cards and panels: #1A1A1A
+Main surface: #191B20
+
+Cards and panels: #24262B
 
 Input fields: #121212
 
-Main purple: #8A2BE2
+Main accent: #D8B56E
 
-Purple hover color: #B066FF
+Accent hover: #E8CA8B
 
-Blue accent: #3A8DFF
+Purple status/action: #8A2BE2
+
+Blue information: #3A8DFF
 
 Green for live content: #00FF9C
 
 Red for errors: #FF3B3B
 
-Main text: #FFFFFF
+Main text: #F4F1EA
 
-Secondary text: #CFCFCF
+Secondary text: #AEB2BC
 
-Muted text: #8A8A8A
+Muted text: #707580
+
+Borders: #2D3037
 
 Use colors to show importance and status. Always make sure text is easy to read.
 
 ## Fonts and Spacing
 
-- Use a clean font such as Inter, Poppins, or Roboto.
+- Use the existing clean system font stack consistently.
 - Keep headings short and clear.
 - Use bold text for player names, scores, and rankings.
 - Use regular text for descriptions and supporting information.
 - Keep spacing consistent throughout the app.
-- Use rounded corners lightly on cards, buttons, and inputs.
+- Use small rounded corners, generally between 6px and 9px.
 
 ## Components
 
 ### Buttons
 
-Use purple buttons with white text for main actions. Add a lighter purple hover state and a clear focus state. Button labels should be simple, such as Log in, View profile, or See leaderboard.
+Use gold for the primary login action and selected navigation state. Use a lighter gold hover state and a visible keyboard focus state. Keep button labels short and descriptive.
+
+### Navigation
+
+Use a dark vertical sidebar on larger screens with an icon and label for Dashboard, Leaderboard, and Profile. Highlight the selected section with the gold accent. Stack the navigation horizontally on smaller screens.
 
 ### Cards
 
-Use dark cards with enough space around their content. Cards can have a light border or soft shadow. Use stronger styling only for featured games, live matches, or selected items.
+Use dark surfaces with a subtle border and comfortable internal spacing. Use stronger styling only for selected or important content.
 
 ### Inputs
 
-Use dark input fields with clear labels. Show a purple border when an input is selected. Error messages should be easy to see and understand.
+Use dark input fields with clear labels. Use the gold accent for the focused border. Error messages use red and must include readable text.
 
 ### Status Labels
 
@@ -61,28 +71,26 @@ Use green for live or successful states, red for errors, and blue for informatio
 
 ## Layout
 
-- Use grids for game lists, dashboards, and leaderboards.
-- Use flexible rows for navigation and player information.
+- Use grids for game lists and profile statistics.
+- Use tables for leaderboard data.
 - Keep page content aligned and organized.
 - Leave enough space between sections.
 - Stack content on smaller screens.
-- Make wide leaderboards usable on mobile.
+- Keep leaderboard tables readable on mobile with horizontal overflow when needed.
 
 ## Motion
 
-Use small animations for page loading, buttons, and cards. Motion should feel smooth and should not distract from the content. Support users who prefer reduced motion.
+Use small, smooth transitions for buttons and selected navigation. Do not use motion for decoration. Respect prefers-reduced-motion for users who disable animation.
 
 ## Accessibility
 
 - Keep text readable against its background.
 - Show a focus state when using the keyboard.
 - Use proper headings, labels, buttons, and navigation.
-- Add alternative text to images and stream thumbnails.
+- Use descriptive labels and tooltips for unfamiliar icons.
 - Do not use color as the only way to show status.
 - Check the design on both desktop and mobile.
 
 ## Branding
 
-Use game images, player badges, ranking icons, and esports-style graphics to give the app character. These details should support the content instead of distracting from it.
-
-checking deployment? again?
+The product name is **Esports App**. Use simple esports-related icons and graphics that support the dashboard, leaderboard, and player profile without making the interface busy.

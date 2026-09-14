@@ -1,6 +1,6 @@
 .profile {
-  background-color: #0d0d0d;
-  color: #ffffff;
+  background-color: var(--bg);
+  color: var(--text-h);
   padding: 2rem;
   border-radius: 12px;
 }
@@ -15,7 +15,7 @@
 }
  
 .profile__username {
-  color: #cfcfcf;
+  color: var(--text);
 }
  
 .profile__subtitle {
@@ -30,10 +30,10 @@
 }
  
 .profile__game-card {
-  background-color: #1a1a1a;
+  background-color: var(--surface);
   border-radius: 10px;
   padding: 1rem;
-  box-shadow: 0 0 12px rgba(138, 43, 226, 0.4);
+  border: 1px solid var(--border);
 }
  
 .profile__game-name {
@@ -42,5 +42,5 @@
 }
  
 .profile__game-detail span {
-  color: #00ff9c;
+  color: var(--success);
 }

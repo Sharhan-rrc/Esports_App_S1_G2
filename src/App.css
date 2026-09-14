@@ -2,7 +2,7 @@
   display: flex;
   width: 100%;
   min-height: 100svh;
-  background: #111317;
+  background: var(--bg);
 }
 
 .app-sidebar {
@@ -12,8 +12,8 @@
   min-height: 100svh;
   padding: 1.75rem 0.85rem 1rem;
   box-sizing: border-box;
-  background: #191b20;
-  border-right: 1px solid #2d3037;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
 }
 
 .app-brand {
@@ -22,7 +22,7 @@
   align-items: center;
   gap: 0.55rem;
   margin-bottom: 2.5rem;
-  color: #f4f1ea;
+  color: var(--text-h);
   font-size: 0.9rem;
   font-weight: 700;
 }
@@ -32,9 +32,9 @@
   place-items: center;
   width: 2rem;
   height: 2rem;
-  border: 1px solid #b89550;
+  border: 1px solid var(--accent-border);
   border-radius: 7px;
-  color: #d8b56e;
+  color: var(--accent);
   font-size: 0.7rem;
   letter-spacing: 0.05em;
 }
@@ -56,7 +56,7 @@
   padding: 0.85rem 0.5rem;
   border: 1px solid transparent;
   border-radius: 9px;
-  color: #aeb2bc;
+  color: var(--text);
   background: transparent;
   font: inherit;
   font-size: 0.78rem;
@@ -67,9 +67,9 @@
 
 .app-nav__button:hover,
 .app-nav__button--active {
-  border-color: #3c3a35;
-  background: #24262b;
-  color: #d8b56e;
+  border-color: var(--accent-border);
+  background: var(--panel);
+  color: var(--accent);
 }
 
 .app-nav__button:hover {
@@ -86,7 +86,7 @@
   flex: 1;
   min-width: 0;
   padding: 1.25rem;
-  background: #111317;
+  background: var(--bg);
 }
 
 @media (max-width: 620px) {
@@ -99,7 +99,7 @@
     min-height: auto;
     padding: 0.8rem 0.65rem 0.65rem;
     border-right: 0;
-    border-bottom: 1px solid #2d3037;
+    border-bottom: 1px solid var(--border);
   }
 
   .app-brand {

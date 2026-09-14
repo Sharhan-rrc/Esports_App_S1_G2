@@ -1,6 +1,6 @@
 .leaderboard {
-  background-color: #0d0d0d;
-  color: #ffffff;
+  background-color: var(--bg);
+  color: var(--text-h);
   padding: 2rem;
   border-radius: 12px;
 }
@@ -15,7 +15,7 @@
 }
 
 .leaderboard__description {
-  color: #cfcfcf;
+  color: var(--text);
 }
 
 .leaderboard__table {
@@ -28,17 +28,17 @@
 .leaderboard__table td {
   padding: 0.75rem;
   text-align: left;
-  border-bottom: 1px solid #333333;
+  border-bottom: 1px solid var(--border);
 }
 
 .leaderboard__table th {
-  background-color: #1a1a1a;
+  background-color: var(--surface);
 }
 
 .leaderboard__table tr:nth-child(even) {
-  background-color: #121212;
+  background-color: var(--input);
 }
 
 .leaderboard__table tr:nth-child(odd) {
-  background-color: #181818;
+  background-color: var(--surface);
 }

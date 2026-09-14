@@ -1,6 +1,6 @@
 .dashboard {
-  background-color: #0d0d0d;
-  color: #ffffff;
+  background-color: var(--bg);
+  color: var(--text-h);
   padding: 2rem;
   border-radius: 12px;
 }
@@ -15,7 +15,7 @@
 }
 
 .dashboard__subtitle {
-  color: #cfcfcf;
+  color: var(--text);
 }
 
 .dashboard__section {
@@ -34,10 +34,10 @@
 }
 
 .dashboard__game-card {
-  background-color: #1a1a1a;
+  background-color: var(--surface);
   border-radius: 10px;
   padding: 1rem;
-  box-shadow: 0 0 12px rgba(138, 43, 226, 0.4);
+  border: 1px solid var(--border);
 }
 
 .dashboard__game-name {
@@ -46,7 +46,7 @@
 }
 
 .dashboard__game-top-player span {
-  color: #00ff9c;
+  color: var(--success);
 }
 
 .dashboard__streams-list {
@@ -56,7 +56,7 @@
 }
 
 .dashboard__stream-item {
-  background-color: #1a1a1a;
+  background-color: var(--surface);
   border-radius: 10px;
   padding: 0.8rem 1rem;
   margin-bottom: 0.6rem;
@@ -68,7 +68,7 @@
 }
 
 .dashboard__stream-detail span {
-  color: #3a8dff;
+  color: var(--info);
 }
 
  

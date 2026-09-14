@@ -2,12 +2,19 @@
   --text: #aeb2bc;
   --text-h: #f4f1ea;
   --bg: #111317;
+  --surface: #191b20;
+  --panel: #24262b;
+  --input: #121212;
   --border: #2d3037;
-  --code-bg: #24262b;
   --accent: #d8b56e;
+  --accent-hover: #e8ca8b;
   --accent-bg: rgba(216, 181, 110, 0.12);
   --accent-border: rgba(216, 181, 110, 0.5);
-  --social-bg: #24262b;
+  --info: #3a8dff;
+  --success: #00ff9c;
+  --error: #ff3b3b;
+  --muted: #707580;
+  --social-bg: var(--panel);
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
