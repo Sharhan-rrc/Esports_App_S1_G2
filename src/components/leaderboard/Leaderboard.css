@@ -6,7 +6,7 @@
 }
 
 .leaderboard__header {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .leaderboard__title-row {
@@ -31,29 +31,22 @@
   margin: 0;
 }
 
+.leaderboard__game-title {
+  font-size: 1.35rem;
+  margin: 0;
+}
+
 .leaderboard__description {
   color: var(--text);
 }
 
-.leaderboard__form {
-  margin: 1rem 0 1.5rem;
+.leaderboard__games {
+  display: grid;
+  gap: 2rem;
 }
 
-.leaderboard__form-label {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  font-size: 0.9rem;
-  color: var(--text);
-  max-width: 260px;
-}
-
-.leaderboard__form-select {
-  padding: 0.55rem 0.75rem;
-  border-radius: 8px;
-  border: 1px solid var(--accent);
-  background-color: var(--input);
-  color: var(--text-h);
+.leaderboard__game {
+  min-width: 0;
 }
 
 .leaderboard__table-wrap {
@@ -63,7 +56,7 @@
 .leaderboard__table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 1rem;
+  margin-top: 0.75rem;
   min-width: 420px;
 }
 
