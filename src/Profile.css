@@ -1,3 +1,115 @@
+.profile {
+  background-color: var(--bg);
+  color: var(--text-h);
+  padding: 2rem;
+  border-radius: 12px;
+}
+
+.profile__header {
+  margin-bottom: 1.5rem;
+}
+
+.profile__title {
+  font-size: 1.8rem;
+  margin-bottom: 0.4rem;
+}
+
+.profile__username {
+  color: var(--text);
+}
+
+.profile__section {
+  margin-top: 1.75rem;
+}
+
+.profile__subtitle {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+.profile__games-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.profile__game-card {
+  background-color: var(--surface);
+  border-radius: 10px;
+  padding: 1rem;
+  border: 1px solid var(--border);
+}
+
+.profile__game-logo {
+  display: grid;
+  place-items: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.profile__game-name {
+  font-size: 1.1rem;
+  margin-bottom: 0.6rem;
+}
+
+.profile__game-detail span {
+  color: var(--success);
+}
+
+.profile__form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  align-items: end;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.profile__form-label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  color: var(--text);
+  gap: 0.4rem;
+}
+
+.profile__form-input {
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--accent);
+  background-color: var(--input);
+  color: var(--text-h);
+}
+
+.profile__form-button {
+  padding: 0.65rem 1.1rem;
+  border-radius: 8px;
+  border: none;
+  background-color: var(--accent);
+  color: #111317;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  grid-column: 1 / -1;
+  justify-self: start;
+}
+
+.profile__form-button:hover {
+  background-color: var(--accent-hover);
+}
+
+.profile__favourites-list {
+  list-style: none;
+  padding: 0;
   display: flex;
   flex-wrap: wrap;
   gap: 0.6rem;
