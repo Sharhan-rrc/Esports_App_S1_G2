@@ -17,8 +17,8 @@ function App() {
   // 2. favouriteGames -> added in Dashboard, shown + removable in Profile
   const [favouriteGames, setFavouriteGames] = useState<string[]>([])
 
-  const handleLogin = (selectedGames: string[]) => {
-    setInterestedGames(selectedGames)
+  const handleLogin = () => {
+    setInterestedGames([])
     setIsLoggedIn(true)
     setView('dashboard')
   }

@@ -18,6 +18,11 @@ type GameCardProps = {
   game: GameStat;
 };
 
+type ProfileProps = {
+  favouriteGames: string[];
+  onRemoveFavourite: (game: string) => void;
+};
+
 function GameCard({ game }: GameCardProps) {
   return (
     <li className="profile__game-card">
@@ -35,7 +40,7 @@ function GameCard({ game }: GameCardProps) {
   );
 }
 
-function Profile() {
+function Profile({ favouriteGames, onRemoveFavourite }: ProfileProps) {
   return (
     <section className="profile">
       <header className="profile__header">
@@ -49,6 +54,24 @@ function Profile() {
           {games.map((game) => (
             <GameCard key={game.id} game={game} />
           ))}
+        </ul>
+      </section>
+
+      <section className="profile__summary">
+        <h2 className="profile__subtitle">Favourite Games</h2>
+        <ul className="profile__games-list">
+          {favouriteGames.length > 0 ? (
+            favouriteGames.map((game) => (
+              <li key={game} className="profile__game-card">
+                <h3 className="profile__game-name">{game}</h3>
+                <button type="button" onClick={() => onRemoveFavourite(game)}>
+                  Remove
+                </button>
+              </li>
+            ))
+          ) : (
+            <li className="profile__game-card">No favourite games yet.</li>
+          )}
         </ul>
       </section>
     </section>
