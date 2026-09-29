@@ -93,4 +93,4 @@ Use small, smooth transitions for buttons and selected navigation. Do not use mo
 
 ## Branding
 
-The product name is **Esports App**. Use simple esports-related icons and graphics that support the dashboard, leaderboard, and player profile without making the interface busy.
+The product name is Esports App. Use simple esports-related icons and graphics that support the dashboard, leaderboard, and player profile without making the interface busy.
