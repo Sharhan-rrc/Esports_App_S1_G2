@@ -1,6 +1,6 @@
 .dashboard {
-  background-color: #0d0d0d;
-  color: #ffffff;
+  background-color: var(--bg);
+  color: var(--text-h);
   padding: 2rem;
   border-radius: 12px;
 }
@@ -15,7 +15,7 @@
 }
 
 .dashboard__subtitle {
-  color: #cfcfcf;
+  color: var(--text);
 }
 
 .dashboard__section {
@@ -34,10 +34,27 @@
 }
 
 .dashboard__game-card {
-  background-color: #1a1a1a;
+  background-color: var(--surface);
   border-radius: 10px;
   padding: 1rem;
-  box-shadow: 0 0 12px rgba(138, 43, 226, 0.4);
+  border: 1px solid var(--border);
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.dashboard__game-card:hover {
+  border-color: var(--accent-border);
+  transform: translateY(-2px);
+}
+
+.dashboard__game-logo {
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  margin-bottom: 0.6rem;
+  border-radius: 8px;
+  background: var(--accent-bg);
+  color: var(--accent);
 }
 
 .dashboard__game-name {
@@ -46,7 +63,76 @@
 }
 
 .dashboard__game-top-player span {
-  color: #00ff9c;
+  color: var(--success);
+}
+
+.dashboard__favourite-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.dashboard__favourite-label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  color: var(--text);
+  gap: 0.4rem;
+}
+
+.dashboard__favourite-select {
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--accent);
+  background-color: var(--input);
+  color: var(--text-h);
+  min-width: 200px;
+}
+
+.dashboard__favourite-button {
+  padding: 0.6rem 1.1rem;
+  border-radius: 8px;
+  border: none;
+  background-color: var(--accent);
+  color: #111317;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.dashboard__favourite-button:hover {
+  background-color: var(--accent-hover);
+}
+
+.dashboard__favourites-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.dashboard__favourite-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--surface);
+  border: 1px solid var(--accent-border);
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.9rem;
+}
+
+.dashboard__favourite-icon {
+  display: inline-flex;
+  color: var(--accent);
+}
+
+.dashboard__favourites-empty {
+  color: var(--muted);
+  font-size: 0.9rem;
 }
 
 .dashboard__streams-list {
@@ -56,7 +142,7 @@
 }
 
 .dashboard__stream-item {
-  background-color: #1a1a1a;
+  background-color: var(--surface);
   border-radius: 10px;
   padding: 0.8rem 1rem;
   margin-bottom: 0.6rem;
@@ -68,7 +154,5 @@
 }
 
 .dashboard__stream-detail span {
-  color: #3a8dff;
+  color: var(--info);
 }
-
- 
