@@ -1,6 +1,6 @@
 .leaderboard {
-  background-color: #0d0d0d;
-  color: #ffffff;
+  background-color: var(--bg);
+  color: var(--text-h);
   padding: 2rem;
   border-radius: 12px;
 }
@@ -9,36 +9,79 @@
   margin-bottom: 1.5rem;
 }
 
-.leaderboard__title {
-  font-size: 1.8rem;
+.leaderboard__title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
   margin-bottom: 0.4rem;
 }
 
+.leaderboard__logo {
+  display: grid;
+  place-items: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 8px;
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.leaderboard__title {
+  font-size: 1.8rem;
+  margin: 0;
+}
+
 .leaderboard__description {
-  color: #cfcfcf;
+  color: var(--text);
+}
+
+.leaderboard__form {
+  margin: 1rem 0 1.5rem;
+}
+
+.leaderboard__form-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: var(--text);
+  max-width: 260px;
+}
+
+.leaderboard__form-select {
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--accent);
+  background-color: var(--input);
+  color: var(--text-h);
+}
+
+.leaderboard__table-wrap {
+  overflow-x: auto;
 }
 
 .leaderboard__table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 1rem;
+  min-width: 420px;
 }
 
 .leaderboard__table th,
 .leaderboard__table td {
   padding: 0.75rem;
   text-align: left;
-  border-bottom: 1px solid #333333;
+  border-bottom: 1px solid var(--border);
 }
 
 .leaderboard__table th {
-  background-color: #1a1a1a;
+  background-color: var(--surface);
 }
 
 .leaderboard__table tr:nth-child(even) {
-  background-color: #121212;
+  background-color: var(--input);
 }
 
 .leaderboard__table tr:nth-child(odd) {
-  background-color: #181818;
+  background-color: var(--surface);
 }
