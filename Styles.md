@@ -38,6 +38,10 @@ Borders: #2D3037
 
 Use colors to show importance and status. Always make sure text is easy to read.
 
+### Sprint 2 note — one theme everywhere
+
+Login, Dashboard, Leaderboard, and Profile all use the same dark + gold theme (#D8B56E / #E8CA8B) for buttons, selected states, and highlights — no page swaps to a different accent colour. Purple, blue, green, and red stay reserved for status/action use only (favourite chips, live tags, errors), never as a page's main accent, per the rule above.
+
 ## Fonts and Spacing
 
 - Use the existing clean system font stack consistently.
@@ -51,7 +55,7 @@ Use colors to show importance and status. Always make sure text is easy to read.
 
 ### Buttons
 
-Use gold for the primary login action and selected navigation state. Use a lighter gold hover state and a visible keyboard focus state. Keep button labels short and descriptive.
+Use gold for the primary action button and selected navigation state on every page — Login, Dashboard, Leaderboard, and Profile all share the same gold button style. Use a lighter gold hover state and a visible keyboard focus state. Keep button labels short and descriptive.
 
 ### Navigation
 
@@ -59,15 +63,19 @@ Use a dark vertical sidebar on larger screens with an icon and label for Dashboa
 
 ### Cards
 
-Use dark surfaces with a subtle border and comfortable internal spacing. Use stronger styling only for selected or important content.
+Use dark surfaces with a subtle border and comfortable internal spacing. Use stronger styling only for selected or important content. Game cards may include a small icon "logo" badge in gold instead of an official esports logo.
 
 ### Inputs
 
-Use dark input fields with clear labels. Use the gold accent for the focused border. Error messages use red and must include readable text.
+Use dark input fields with clear labels. Use the gold accent for the focused border on every page. Error messages use red and must include readable text.
 
 ### Status Labels
 
 Use green for live or successful states, red for errors, and blue for information. Include text or an icon so the meaning does not depend on color alone.
+
+### Forms and lists (Sprint 2)
+
+Each page's form (game picker on Login, add-favourite on Dashboard, game-select on Leaderboard, add-stats on Profile) should sit close to the list/loop it affects, use the page's accent colour, and give clear feedback (e.g. a disabled "Continue" button until a game is picked, an empty-state message when a list has no items yet).
 
 ## Layout
 
@@ -93,4 +101,4 @@ Use small, smooth transitions for buttons and selected navigation. Do not use mo
 
 ## Branding
 
-The product name is **Esports App**. Use simple esports-related icons and graphics that support the dashboard, leaderboard, and player profile without making the interface busy.
+The product name is Esports App. Use simple esports-related icons and graphics that support the dashboard, leaderboard, and player profile without making the interface busy.
