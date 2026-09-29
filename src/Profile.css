@@ -1,46 +1,43 @@
-.profile {
-  background-color: #0d0d0d;
-  color: #ffffff;
-  padding: 2rem;
-  border-radius: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
 }
- 
-.profile__header {
-  margin-bottom: 1.5rem;
+
+.profile__favourite-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--surface);
+  border: 1px solid var(--accent-border);
+  border-radius: 999px;
+  padding: 0.4rem 0.5rem 0.4rem 0.9rem;
+  font-size: 0.9rem;
 }
- 
-.profile__title {
-  font-size: 1.8rem;
-  margin-bottom: 0.4rem;
+
+.profile__favourite-icon {
+  display: inline-flex;
+  color: var(--accent);
 }
- 
-.profile__username {
-  color: #cfcfcf;
-}
- 
-.profile__subtitle {
-  font-size: 1.3rem;
-  margin-bottom: 1rem;
-}
- 
-.profile__games-list {
+
+.profile__favourite-remove {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1rem;
+  place-items: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.2s, background-color 0.2s;
 }
- 
-.profile__game-card {
-  background-color: #1a1a1a;
-  border-radius: 10px;
-  padding: 1rem;
-  box-shadow: 0 0 12px rgba(138, 43, 226, 0.4);
+
+.profile__favourite-remove:hover {
+  color: var(--error);
+  background-color: rgba(255, 59, 59, 0.12);
 }
- 
-.profile__game-name {
-  font-size: 1.1rem;
-  margin-bottom: 0.6rem;
-}
- 
-.profile__game-detail span {
-  color: #00ff9c;
+
+.profile__favourites-empty {
+  color: var(--muted);
+  font-size: 0.9rem;
 }
