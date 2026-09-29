@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Dashboard.css";
 import { Crosshair, Gamepad2, Rocket, Swords, Target } from "lucide-react";
 
@@ -50,10 +50,20 @@ const Dashboard: React.FC<DashboardProps> = ({
       ? ALL_GAMES.filter((game) => interestedGames.includes(game.name))
       : ALL_GAMES;
 
+  const [selectedGame, setSelectedGame] = useState<string>(
+    ALL_GAMES[0].name
+  );
+
+  const handleAddFavourite = (event: React.FormEvent) => {
+    event.preventDefault();
+    onAddFavourite(selectedGame);
+  };
+
   return (
     <section className="dashboard">
       <header className="dashboard__header">
         <h1 className="dashboard__title">Esports Hub Dashboard</h1>
+
         <p className="dashboard__subtitle">
           Explore top games, players, and live esports streams.
         </p>
@@ -83,6 +93,58 @@ const Dashboard: React.FC<DashboardProps> = ({
             </article>
           ))}
         </div>
+      </section>
+
+      <section className="dashboard__section">
+        <h2 className="dashboard__section-title">
+          Add a Favourite Game
+        </h2>
+
+        <form
+          className="dashboard__favourite-form"
+          onSubmit={handleAddFavourite}
+        >
+          <label className="dashboard__favourite-label">
+            Choose a game
+
+            <select
+              className="dashboard__favourite-select"
+              value={selectedGame}
+              onChange={(event) => setSelectedGame(event.target.value)}
+            >
+              {ALL_GAMES.map((game) => (
+                <option key={game.id} value={game.name}>
+                  {game.name}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <button
+            type="submit"
+            className="dashboard__favourite-button"
+          >
+            Add to Favourites
+          </button>
+        </form>
+
+        {favouriteGames.length > 0 ? (
+          <ul className="dashboard__favourites-list">
+            {favouriteGames.map((game) => (
+              <li key={game} className="dashboard__favourite-item">
+                <span className="dashboard__favourite-icon">
+                  {getGameIcon(game)}
+                </span>
+
+                {game}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="dashboard__favourites-empty">
+            You haven't added any favourite games yet.
+          </p>
+        )}
       </section>
     </section>
   );
