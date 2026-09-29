@@ -11,8 +11,28 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [view, setView] = useState<View>('dashboard')
 
+  // Shared state (Sprint 2)
+  // 1. interestedGames -> selected in Login
+  const [interestedGames, setInterestedGames] = useState<string[]>([])
+  // 2. favouriteGames -> added in Dashboard, shown + removable in Profile
+  const [favouriteGames, setFavouriteGames] = useState<string[]>([])
+
+  const handleLogin = (selectedGames: string[]) => {
+    setInterestedGames(selectedGames)
+    setIsLoggedIn(true)
+    setView('dashboard')
+  }
+
+  const handleAddFavourite = (game: string) => {
+    setFavouriteGames((prev) => (prev.includes(game) ? prev : [...prev, game]))
+  }
+
+  const handleRemoveFavourite = (game: string) => {
+    setFavouriteGames((prev) => prev.filter((g) => g !== game))
+  }
+
   if (!isLoggedIn) {
-    return <Login onLogin={() => setIsLoggedIn(true)} />
+    return <Login onLogin={handleLogin} />
   }
 
   return (
@@ -55,9 +75,20 @@ function App() {
         </nav>
       </aside>
       <section className="app-content">
-        {view === 'dashboard' && <Dashboard />}
+        {view === 'dashboard' && (
+          <Dashboard
+            interestedGames={interestedGames}
+            favouriteGames={favouriteGames}
+            onAddFavourite={handleAddFavourite}
+          />
+        )}
         {view === 'leaderboard' && <Leaderboard />}
-        {view === 'profile' && <Profile />}
+        {view === 'profile' && (
+          <Profile
+            favouriteGames={favouriteGames}
+            onRemoveFavourite={handleRemoveFavourite}
+          />
+        )}
       </section>
     </main>
   )
