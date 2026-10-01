@@ -45,7 +45,7 @@
   margin-bottom: 2rem;
   border: 1px solid var(--border);
   border-radius: 10px;
-  background: var(--surface);
+  background: var(--bg);
   box-shadow: var(--shadow);
   text-align: left;
 }
@@ -99,7 +99,7 @@
   padding: 0.7rem 0.75rem;
   border: 1px solid var(--border);
   border-radius: 6px;
-  background: var(--input);
+  background: var(--code-bg);
   color: var(--text-h);
   font: inherit;
 }
@@ -154,15 +154,15 @@
 }
 
 .leaderboard__table th {
-  background-color: var(--surface);
+  background-color: var(--bg);
 }
 
 .leaderboard__table tr:nth-child(even) {
-  background-color: var(--input);
+  background-color: var(--code-bg);
 }
 
 .leaderboard__table tr:nth-child(odd) {
-  background-color: var(--surface);
+  background-color: var(--bg);
 }
 
 @media (max-width: 720px) {
