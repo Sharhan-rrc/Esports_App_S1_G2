@@ -1,6 +1,6 @@
 import React from "react";
 import "./Leaderboard.css";
-import { Crosshair, Gamepad2, Rocket, Swords, Target } from "lucide-react";
+import { Crosshair, Gamepad2, Plus, Rocket, Swords, Target } from "lucide-react";
 
 interface Player {
   id: number;
@@ -85,6 +85,45 @@ const GAME_LEADERBOARDS: GameLeaderboard[] = [
 ];
 
 const Leaderboard: React.FC = () => {
+  const [gameLeaderboards, setGameLeaderboards] = React.useState(GAME_LEADERBOARDS);
+  const [selectedGame, setSelectedGame] = React.useState(GAME_LEADERBOARDS[0].name);
+  const [playerName, setPlayerName] = React.useState("");
+  const [score, setScore] = React.useState("");
+
+  const handleAddScore = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const trimmedName = playerName.trim();
+    const numericScore = Number(score);
+
+    if (!trimmedName || !Number.isFinite(numericScore) || numericScore < 0) {
+      return;
+    }
+
+    setGameLeaderboards((currentLeaderboards) =>
+      currentLeaderboards.map((game) => {
+        if (game.name !== selectedGame) {
+          return game;
+        }
+
+        const newPlayer: Player = {
+          id: Math.max(0, ...game.players.map((player) => player.id)) + 1,
+          name: trimmedName,
+          score: numericScore,
+          position: 0,
+        };
+        const players = [...game.players, newPlayer]
+          .sort((firstPlayer, secondPlayer) => secondPlayer.score - firstPlayer.score)
+          .map((player, index) => ({ ...player, position: index + 1 }));
+
+        return { ...game, players };
+      }),
+    );
+
+    setPlayerName("");
+    setScore("");
+  };
+
   return (
     <section className="leaderboard">
       <header className="leaderboard__header">
@@ -94,8 +133,55 @@ const Leaderboard: React.FC = () => {
         </p>
       </header>
 
+      <form className="leaderboard__add-score" onSubmit={handleAddScore}>
+        <div className="leaderboard__form-heading">
+          <span className="leaderboard__form-icon" aria-hidden="true">
+            <Plus size={20} />
+          </span>
+          <div>
+            <h2>Add score</h2>
+            <p>Add a player to the selected game leaderboard.</p>
+          </div>
+        </div>
+        <div className="leaderboard__form-fields">
+          <label>
+            Select game
+            <select value={selectedGame} onChange={(event) => setSelectedGame(event.target.value)}>
+              {gameLeaderboards.map((game) => (
+                <option key={game.name} value={game.name}>
+                  {game.name}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Player name
+            <input
+              type="text"
+              value={playerName}
+              onChange={(event) => setPlayerName(event.target.value)}
+              placeholder="Enter player name"
+              required
+            />
+          </label>
+          <label>
+            Score
+            <input
+              type="number"
+              value={score}
+              onChange={(event) => setScore(event.target.value)}
+              placeholder="0"
+              min="0"
+              step="1"
+              required
+            />
+          </label>
+          <button type="submit">Add score</button>
+        </div>
+      </form>
+
       <div className="leaderboard__games">
-        {GAME_LEADERBOARDS.map((game) => (
+        {gameLeaderboards.map((game) => (
           <article className="leaderboard__game" key={game.name}>
             <div className="leaderboard__title-row">
               <span className="leaderboard__logo">{getGameIcon(game.name)}</span>
