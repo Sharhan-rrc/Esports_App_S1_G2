@@ -40,6 +40,92 @@
   color: var(--text);
 }
 
+.leaderboard__add-score {
+  padding: 1.25rem;
+  margin-bottom: 2rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  box-shadow: var(--shadow);
+  text-align: left;
+}
+
+.leaderboard__form-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.leaderboard__form-heading h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.leaderboard__form-heading p {
+  color: var(--text);
+  font-size: 0.85rem;
+}
+
+.leaderboard__form-icon {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 7px;
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.leaderboard__form-fields {
+  display: grid;
+  grid-template-columns: 1.1fr 1.4fr 0.8fr auto;
+  align-items: end;
+  gap: 1rem;
+}
+
+.leaderboard__form-fields label {
+  display: grid;
+  gap: 0.35rem;
+  color: var(--text-h);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.leaderboard__form-fields input,
+.leaderboard__form-fields select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.7rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--code-bg);
+  color: var(--text-h);
+  font: inherit;
+}
+
+.leaderboard__form-fields input:focus,
+.leaderboard__form-fields select:focus {
+  outline: 2px solid var(--accent-border);
+  outline-offset: 1px;
+}
+
+.leaderboard__form-fields button {
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.leaderboard__form-fields button:hover {
+  filter: brightness(0.92);
+}
+
 .leaderboard__games {
   display: grid;
   gap: 2rem;
@@ -68,13 +154,33 @@
 }
 
 .leaderboard__table th {
-  background-color: var(--surface);
+  background-color: var(--bg);
 }
 
 .leaderboard__table tr:nth-child(even) {
-  background-color: var(--input);
+  background-color: var(--code-bg);
 }
 
 .leaderboard__table tr:nth-child(odd) {
-  background-color: var(--surface);
+  background-color: var(--bg);
+}
+
+@media (max-width: 720px) {
+  .leaderboard {
+    padding: 1rem;
+  }
+
+  .leaderboard__form-fields {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .leaderboard__form-fields button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .leaderboard__form-fields {
+    grid-template-columns: 1fr;
+  }
 }
