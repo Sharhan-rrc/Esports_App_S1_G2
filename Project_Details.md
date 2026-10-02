@@ -1,4 +1,4 @@
---- Group 2 Team Flash - Section-1 ---
+--- Group 2 Team Freeze - Section-1 ---
 
 - Parneet Kaur
 - Sharhan Kaji
