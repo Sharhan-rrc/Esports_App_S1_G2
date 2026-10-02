@@ -135,6 +135,8 @@ function App() {
       <section className="app-content">
         {view === 'dashboard' && (
           <Dashboard
+            games={games}
+            liveStreams={liveStreams}
             interestedGames={interestedGames}
             favouriteGames={favouriteGames}
             onAddFavourite={handleAddFavourite}

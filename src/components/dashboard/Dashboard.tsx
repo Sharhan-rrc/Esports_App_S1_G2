@@ -1,48 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Dashboard.css";
 import { Crosshair, Gamepad2, Rocket, Swords, Target } from "lucide-react";
 import type { GameCard, LiveStream } from "../../types";
 
 interface DashboardProps {
+  games: GameCard[];
+  liveStreams: LiveStream[];
   interestedGames: string[];
   favouriteGames: string[];
   onAddFavourite: (game: string) => void;
 }
-
-const FEATURED_GAMES: GameCard[] = [
-  { id: 1, name: "Valorant", genre: "FPS", topPlayer: "AceHunter" },
-  { id: 2, name: "League of Legends", genre: "MOBA", topPlayer: "ShadowFox" },
-  { id: 3, name: "CS:GO", genre: "FPS", topPlayer: "NeonBlade" },
-  { id: 4, name: "Dota 2", genre: "MOBA", topPlayer: "MysticBlade" },
-  { id: 5, name: "Fortnite", genre: "Battle Royale", topPlayer: "PixelStorm" },
-];
-
-const ALL_GAMES: GameCard[] = [
-  ...FEATURED_GAMES,
-  { id: 6, name: "Apex Legends", genre: "Battle Royale", topPlayer: "RavenStrike" },
-  { id: 7, name: "Overwatch 2", genre: "FPS", topPlayer: "NovaPulse" },
-  { id: 8, name: "Rainbow Six Siege", genre: "FPS", topPlayer: "TacticalGhost" },
-  { id: 9, name: "Rocket League", genre: "Sports", topPlayer: "AirDribble" },
-  { id: 10, name: "PUBG: Battlegrounds", genre: "Battle Royale", topPlayer: "LastSurvivor" },
-  { id: 11, name: "Call of Duty", genre: "FPS", topPlayer: "QuickScope" },
-  { id: 12, name: "EA Sports FC 25", genre: "Sports", topPlayer: "GoalMachine" },
-  { id: 13, name: "Street Fighter 6", genre: "Fighting", topPlayer: "ComboMaster" },
-  { id: 14, name: "Tekken 8", genre: "Fighting", topPlayer: "IronFist" },
-  { id: 15, name: "StarCraft II", genre: "RTS", topPlayer: "ZergRush" },
-  { id: 16, name: "Hearthstone", genre: "Card Game", topPlayer: "DeckBuilder" },
-  { id: 17, name: "Teamfight Tactics", genre: "Auto Battler", topPlayer: "ChessMaster" },
-  { id: 18, name: "Deadlock", genre: "MOBA", topPlayer: "LaneKeeper" },
-  { id: 19, name: "Marvel Rivals", genre: "Hero Shooter", topPlayer: "WebSlinger" },
-  { id: 20, name: "Minecraft", genre: "Sandbox", topPlayer: "BlockBuilder" },
-];
-
-const liveStreams: LiveStream[] = [
-  { id: 1, title: "Valorant Finals", game: "Valorant", platform: "YouTube" },
-  { id: 2, title: "LoL Championship", game: "League of Legends", platform: "Twitch" },
-  { id: 3, title: "CS:GO Major", game: "CS:GO", platform: "YouTube" },
-  { id: 4, title: "Dota 2 International", game: "Dota 2", platform: "Twitch" },
-  { id: 5, title: "Fortnite Showdown", game: "Fortnite", platform: "YouTube" },
-];
 
 // Simple icon "logo" badge per game, in place of a real Esports World Cup logo
 function getGameIcon(name: string) {
@@ -63,19 +30,37 @@ function getGameIcon(name: string) {
 }
 
 const Dashboard: React.FC<DashboardProps> = ({
+  games,
+  liveStreams,
   interestedGames,
   favouriteGames,
   onAddFavourite,
 }) => {
   // Uses shared state from Login: if the user picked games there, show those.
-  // Otherwise fall back to the full game list.
+  // Otherwise show the current game list managed by Administration.
   const featuredGames =
     interestedGames.length > 0
-      ? FEATURED_GAMES.filter((game) => interestedGames.includes(game.name))
-      : FEATURED_GAMES;
+      ? games.filter((game) => interestedGames.includes(game.name))
+      : games;
 
-  const [selectedGame, setSelectedGame] = useState<string>(ALL_GAMES[0].name);
-  const [favouriteGame, setFavouriteGame] = useState<string>(ALL_GAMES[0].name);
+  const [selectedGame, setSelectedGame] = useState<string>(games[0]?.name ?? "");
+  const [favouriteGame, setFavouriteGame] = useState<string>(games[0]?.name ?? "");
+
+  useEffect(() => {
+    if (games.length === 0) {
+      setSelectedGame("");
+      setFavouriteGame("");
+      return;
+    }
+
+    if (!games.some((game) => game.name === selectedGame)) {
+      setSelectedGame(games[0].name);
+    }
+    if (!games.some((game) => game.name === favouriteGame)) {
+      setFavouriteGame(games[0].name);
+    }
+  }, [games, selectedGame, favouriteGame]);
+
   const selectedStreams = liveStreams.filter((stream) => stream.game === selectedGame);
 
   const handleAddFavourite = (event: React.FormEvent) => {
@@ -101,7 +86,7 @@ const Dashboard: React.FC<DashboardProps> = ({
             value={selectedGame}
             onChange={(event) => setSelectedGame(event.target.value)}
           >
-            {ALL_GAMES.map((game) => (
+            {games.map((game) => (
               <option key={game.id} value={game.name}>
                 {game.name}
               </option>
@@ -154,7 +139,7 @@ const Dashboard: React.FC<DashboardProps> = ({
               value={favouriteGame}
               onChange={(event) => setFavouriteGame(event.target.value)}
             >
-              {ALL_GAMES.map((game) => (
+              {games.map((game) => (
                 <option key={game.id} value={game.name}>
                   {game.name}
                 </option>
