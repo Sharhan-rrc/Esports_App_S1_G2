@@ -1,20 +1,7 @@
 import React, { useState } from "react";
 import "./Dashboard.css";
 import { Crosshair, Gamepad2, Rocket, Swords, Target } from "lucide-react";
-
-interface GameCard {
-  id: number;
-  name: string;
-  genre: string;
-  topPlayer: string;
-}
-
-interface LiveStream {
-  id: number;
-  title: string;
-  game: string;
-  platform: string;
-}
+import type { GameCard, LiveStream } from "../../types";
 
 interface DashboardProps {
   interestedGames: string[];
