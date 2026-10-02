@@ -1,77 +1,57 @@
---- Group 2 Team Flash - Section-1 ---
+## Group 2 Team
 
 - Parneet Kaur
 - Sharhan Kaji
 - Rudra Patel
 
---  Summary With Clear Team Tasks  --
+## Project Summary
 
-Project: Esports App (Demo Version)
-A simple esports-themed web application built with React. After the mock login, users can switch between the dashboard, leaderboard, and player profile from the dark sidebar navigation.
+The Esports App is a React demo application for browsing games, live streams, player rankings, and profile statistics. Users log in through a mock login and then navigate between Dashboard, Leaderboard, Profile, and Administration.
 
-Team Responsibilities -
+## Team Responsibilities
 
------------------------------------------
+### Rudra - Player Profile
 
-1. Rudra — Player Profile System
-Build the User Profile Page
+- Build the Player Profile page.
+- Display username, games played, scores, ranks, and performance summaries.
+- Add a form and cards for personal game statistics.
+- Use static or mock data; no backend is required.
 
-Display user’s:
+### Sharhan - Leaderboard
 
-Username
+- Build the Leaderboard page.
+- Display top players, positions, and scores for multiple games.
+- Add the score form and sort players by score.
+- Use mock player and score data.
 
-Games played
+### Parneet - Dashboard and Administration
 
-Personal scores
+- Build the Dashboard with game cards, top-player information, favourites, and live streams.
+- Build Administration with forms to add and remove games, live streams, and favourite games.
+- Connect Administration changes to shared state so new games and streams appear on Dashboard.
 
-Performance summaries
+### Shared Work
 
-Add simple UI cards for each game
+- Create the mock Login page with email and password fields.
+- Maintain shared state in `App.tsx` and pass it to the pages that use it.
+- Keep navigation working for Dashboard, Leaderboard, Profile, and Administration.
 
-Keep data static or mock JSON (no backend required)
+## Shared State
 
--------------------------------------------
+- `favouriteGames` is managed by Dashboard or Administration and displayed in Profile.
+- `games` is managed by Administration and displayed on Dashboard.
+- `liveStreams` is managed by Administration and displayed on Dashboard.
+- Data is stored in React state only and is not persistent after a page refresh.
 
-2. Sharhan - Leaderboard Feature
-Build the Leaderboard Page
+## Visual Direction
 
-User selects a game and sees:
+Use a dark charcoal interface with gold navigation and primary actions. Purple, blue, green, and red are reserved for status information and errors. Use simple icon badges instead of official esports logos.
 
-Top players
+## Main Requirements
 
-Rank numbers
-
-Highest scores or achievements
-
-Add sorting or filtering (optional)
-
-Use mock data for players and scores
-
--------------------------------------------
-
-3. Parneet - Main Dashboard
-Build the Dashboard / Home Page
-
-Show:
-
-List of games (grid or cards)
-
-Top players preview
-
-Featured esports live streams (YouTube embeds or placeholder images)
-
-Add a “Live Videos” or “Featured Streams” section
-
-Shared Feature
-Login Page (All Members)
-Simple login UI (email + password)
-
-No real authentication - just a mock login that opens the app dashboard
-
-Navigation
-Shared app navigation connects the Dashboard, Leaderboard, and Profile views.
-
-Visual Direction
-The app uses a dark charcoal theme with gold navigation accents. Purple, blue, green, and red are reserved for actions and status information.
-
-Rough Checklist -
+- Mock login opens the application without real authentication.
+- Users can add and remove games, live streams, and favourites.
+- Added games and streams appear on Dashboard without a page reload.
+- Leaderboard scores are validated and sorted by highest score.
+- Profile statistics and favourites are displayed in clear lists or cards.
+- Forms, navigation, empty states, and focus states work on desktop and mobile.
