@@ -110,6 +110,11 @@
   outline-offset: 1px;
 }
 
+.leaderboard__form-fields select option {
+  background-color: var(--panel);
+  color: var(--text-h);
+}
+
 .leaderboard__form-fields button {
   padding: 0.7rem 1rem;
   border: 1px solid var(--accent);

@@ -5,6 +5,7 @@
   --surface: #191b20;
   --panel: #24262b;
   --input: #121212;
+  --code-bg: var(--input);
   --border: #2d3037;
   --accent: #d8b56e;
   --accent-hover: #e8ca8b;
