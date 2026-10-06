@@ -5,36 +5,11 @@ import Leaderboard from './components/leaderboard/Leaderboard'
 import Profile from './components/profile/Profile'
 import Admin from './components/Administration/Admin'
 import { ChartNoAxesColumnIncreasing, House, Settings, UserRound } from 'lucide-react'
+import { sampleGames } from './data/samplegames'
+import { sampleStreams } from './data/sampleStreams'
+import type { GameCard, LiveStream } from './types'
 
 type View = 'dashboard' | 'leaderboard' | 'profile' | 'admin'
-
-export interface GameCard {
-  id: number
-  name: string
-  genre: string
-  topPlayer: string
-}
-
-export interface LiveStream {
-  id: number
-  title: string
-  game: string
-  platform: string
-}
-
-const INITIAL_GAMES: GameCard[] = [
-  { id: 1, name: 'Valorant', genre: 'FPS', topPlayer: 'AceHunter' },
-  { id: 2, name: 'League of Legends', genre: 'MOBA', topPlayer: 'ShadowFox' },
-  { id: 3, name: 'CS:GO', genre: 'FPS', topPlayer: 'NeonBlade' },
-  { id: 4, name: 'Dota 2', genre: 'MOBA', topPlayer: 'MysticBlade' },
-  { id: 5, name: 'Fortnite', genre: 'Battle Royale', topPlayer: 'PixelStorm' },
-]
-
-const INITIAL_STREAMS: LiveStream[] = [
-  { id: 1, title: 'Valorant Finals', game: 'Valorant', platform: 'YouTube' },
-  { id: 2, title: 'LoL Championship', game: 'League of Legends', platform: 'Twitch' },
-  { id: 3, title: 'CS:GO Major', game: 'CS:GO', platform: 'YouTube' },
-]
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -46,8 +21,8 @@ function App() {
 
   // Shared state (Sprint 2 extension) — managed from the Administration page,
   // read by Dashboard (and Leaderboard, for the game list)
-  const [games, setGames] = useState<GameCard[]>(INITIAL_GAMES)
-  const [liveStreams, setLiveStreams] = useState<LiveStream[]>(INITIAL_STREAMS)
+  const [games, setGames] = useState<GameCard[]>(sampleGames)
+  const [liveStreams, setLiveStreams] = useState<LiveStream[]>(sampleStreams)
 
   const handleLogin = () => {
     setInterestedGames([])

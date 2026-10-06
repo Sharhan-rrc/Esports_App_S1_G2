@@ -1,17 +1,12 @@
 import React from "react";
 import "./Login.css";
+import { loginBenefits } from "../../data/samplegames";
 
 type LoginProps = {
   onLogin: () => void;
 };
 
 const Login: React.FC<LoginProps> = ({ onLogin }) => {
-  const benefits = [
-    "Track your game stats",
-    "Compete on leaderboards",
-    "Watch live esports streams",
-  ];
-
   return (
     <section className="login">
       <h1 className="login__title">Esports Hub Login</h1>
@@ -46,7 +41,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       <section className="login__benefits">
         <h2 className="login__subtitle">Why join Esports Hub?</h2>
         <ul className="login__benefits-list">
-          {benefits.map((item, index) => (
+          {loginBenefits.map((item, index) => (
             <li key={index} className="login__benefit-item">
               {item}
             </li>

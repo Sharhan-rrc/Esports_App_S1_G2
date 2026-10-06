@@ -1,18 +1,8 @@
 import React from "react";
 import "./Leaderboard.css";
 import { Crosshair, Gamepad2, Plus, Rocket, Swords, Target } from "lucide-react";
-
-interface Player {
-  id: number;
-  name: string;
-  score: number;
-  position: number;
-}
-
-interface GameLeaderboard {
-  name: string;
-  players: Player[];
-}
+import { sampleGameLeaderboards } from "../../data/samplegames";
+import type { GameLeaderboard, Player } from "../../types";
 
 function getGameIcon(name: string) {
   switch (name) {
@@ -31,62 +21,11 @@ function getGameIcon(name: string) {
   }
 }
 
-const GAME_LEADERBOARDS: GameLeaderboard[] = [
-  {
-    name: "Valorant",
-    players: [
-      { id: 1, name: "Skaiser", score: 2980, position: 1 },
-      { id: 2, name: "ShadowFox", score: 2740, position: 2 },
-      { id: 3, name: "NeonBlade", score: 2510, position: 3 },
-      { id: 4, name: "PixelStorm", score: 2260, position: 4 },
-      { id: 5, name: "AceHunter", score: 2040, position: 5 },
-    ],
-  },
-  {
-    name: "League of Legends",
-    players: [
-      { id: 1, name: "MysticBlade", score: 3120, position: 1 },
-      { id: 2, name: "VortexKing", score: 2890, position: 2 },
-      { id: 3, name: "GhostRunner", score: 2650, position: 3 },
-      { id: 4, name: "IronWolf", score: 2380, position: 4 },
-      { id: 5, name: "SilentArrow", score: 2190, position: 5 },
-    ],
-  },
-  {
-    name: "CS:GO",
-    players: [
-      { id: 1, name: "ShadowFox", score: 3260, position: 1 },
-      { id: 2, name: "AceHunter", score: 3010, position: 2 },
-      { id: 3, name: "Skaiser", score: 2780, position: 3 },
-      { id: 4, name: "IronWolf", score: 2470, position: 4 },
-      { id: 5, name: "PixelStorm", score: 2310, position: 5 },
-    ],
-  },
-  {
-    name: "Dota 2",
-    players: [
-      { id: 1, name: "VortexKing", score: 3050, position: 1 },
-      { id: 2, name: "NeonBlade", score: 2820, position: 2 },
-      { id: 3, name: "MysticBlade", score: 2590, position: 3 },
-      { id: 4, name: "SilentArrow", score: 2420, position: 4 },
-      { id: 5, name: "GhostRunner", score: 2150, position: 5 },
-    ],
-  },
-  {
-    name: "Fortnite",
-    players: [
-      { id: 1, name: "AceHunter", score: 3190, position: 1 },
-      { id: 2, name: "PixelStorm", score: 2930, position: 2 },
-      { id: 3, name: "IronWolf", score: 2710, position: 3 },
-      { id: 4, name: "ShadowFox", score: 2490, position: 4 },
-      { id: 5, name: "Skaiser", score: 2200, position: 5 },
-    ],
-  },
-];
-
 const Leaderboard: React.FC = () => {
-  const [gameLeaderboards, setGameLeaderboards] = React.useState(GAME_LEADERBOARDS);
-  const [selectedGame, setSelectedGame] = React.useState(GAME_LEADERBOARDS[0].name);
+  const [gameLeaderboards, setGameLeaderboards] = React.useState<GameLeaderboard[]>(
+    sampleGameLeaderboards,
+  );
+  const [selectedGame, setSelectedGame] = React.useState(sampleGameLeaderboards[0].name);
   const [playerName, setPlayerName] = React.useState("");
   const [score, setScore] = React.useState("");
 

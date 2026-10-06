@@ -1,19 +1,7 @@
 import { useState } from "react";
 import "./Profile.css";
-
-type GameStat = {
-  id: number;
-  name: string;
-  hoursPlayed: number;
-  highestScore: number;
-  rank: string;
-};
-
-const initialGames: GameStat[] = [
-  { id: 1, name: "Valorant", hoursPlayed: 120, highestScore: 32, rank: "Gold" },
-  { id: 2, name: "League of Legends", hoursPlayed: 200, highestScore: 18, rank: "Platinum" },
-  { id: 3, name: "CS:GO", hoursPlayed: 90, highestScore: 27, rank: "Silver" },
-];
+import { sampleGameStats } from "../../data/samplegames";
+import type { GameStat } from "../../types";
 
 type GameCardProps = {
   game: GameStat;
@@ -42,7 +30,7 @@ function GameCard({ game }: GameCardProps) {
 }
 
 function Profile({ favouriteGames, onRemoveFavourite }: ProfileProps) {
-  const [games, setGames] = useState<GameStat[]>(initialGames);
+  const [games, setGames] = useState<GameStat[]>(sampleGameStats);
   const [newGame, setNewGame] = useState({
     name: "",
     hoursPlayed: "",
