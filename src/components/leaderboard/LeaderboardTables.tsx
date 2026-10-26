@@ -101,4 +101,3 @@ export default function LeaderboardTables({ onEdit, onDeleted }: Props) {
     </section>
   );
 }
-

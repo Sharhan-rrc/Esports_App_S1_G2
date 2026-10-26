@@ -11,4 +11,3 @@ export default function GameIcon({ game }: { game: string }) {
     default: return <Gamepad2 size={22} />;
   }
 }
-

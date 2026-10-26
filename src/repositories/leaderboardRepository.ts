@@ -48,4 +48,3 @@ export function createLeaderboardRepository(seed: readonly LeaderboardEntry[] = 
 }
 export type LeaderboardRepository = ReturnType<typeof createLeaderboardRepository>;
 export const leaderboardRepository = createLeaderboardRepository();
-

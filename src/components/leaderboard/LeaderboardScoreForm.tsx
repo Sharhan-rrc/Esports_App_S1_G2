@@ -78,4 +78,3 @@ export default function LeaderboardScoreForm({ editingEntry, onCancel, onSaved }
     </form>
   );
 }
-

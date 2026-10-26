@@ -19,4 +19,3 @@ export interface GameLeaderboard {
   name: string;
   players: RankedPlayer[];
 }
-

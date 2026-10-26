@@ -58,4 +58,3 @@ export function createLeaderboardService(
   };
 }
 export const leaderboardService = createLeaderboardService();
-
