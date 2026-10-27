@@ -44,3 +44,33 @@
 .profile__game-detail span {
   color: var(--success);
 }
+
+.profile__stats-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  align-items: end;
+}
+
+.profile__stats-form label {
+  display: grid;
+  gap: 0.4rem;
+  color: var(--text);
+}
+
+.profile__stats-form input {
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background-color: var(--input);
+  color: var(--text-h);
+}
+
+.profile__stats-form button {
+  padding: 0.55rem 0.7rem;
+  border: 0;
+  border-radius: 6px;
+  background-color: var(--accent);
+  color: var(--bg);
+  cursor: pointer;
+}

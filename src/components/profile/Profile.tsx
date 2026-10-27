@@ -1,21 +1,15 @@
+import { useState } from "react";
 import "./Profile.css";
-
-type GameStat = {
-  id: number;
-  name: string;
-  hoursPlayed: number;
-  highestScore: number;
-  rank: string;
-};
-
-const games: GameStat[] = [
-  { id: 1, name: "Valorant", hoursPlayed: 120, highestScore: 32, rank: "Gold" },
-  { id: 2, name: "League of Legends", hoursPlayed: 200, highestScore: 18, rank: "Platinum" },
-  { id: 3, name: "CS:GO", hoursPlayed: 90, highestScore: 27, rank: "Silver" },
-];
+import { sampleGameStats } from "../../data/samplegames";
+import type { GameStat } from "../../types";
 
 type GameCardProps = {
   game: GameStat;
+};
+
+type ProfileProps = {
+  favouriteGames: string[];
+  onRemoveFavourite: (game: string) => void;
 };
 
 function GameCard({ game }: GameCardProps) {
@@ -35,7 +29,30 @@ function GameCard({ game }: GameCardProps) {
   );
 }
 
-function Profile() {
+function Profile({ favouriteGames, onRemoveFavourite }: ProfileProps) {
+  const [games, setGames] = useState<GameStat[]>(sampleGameStats);
+  const [newGame, setNewGame] = useState({
+    name: "",
+    hoursPlayed: "",
+    highestScore: "",
+    rank: "",
+  });
+
+  const handleAddGame = (event: React.FormEvent) => {
+    event.preventDefault();
+    setGames((currentGames) => [
+      ...currentGames,
+      {
+        id: Date.now(),
+        name: newGame.name,
+        hoursPlayed: Number(newGame.hoursPlayed),
+        highestScore: Number(newGame.highestScore),
+        rank: newGame.rank,
+      },
+    ]);
+    setNewGame({ name: "", hoursPlayed: "", highestScore: "", rank: "" });
+  };
+
   return (
     <section className="profile">
       <header className="profile__header">
@@ -49,6 +66,69 @@ function Profile() {
           {games.map((game) => (
             <GameCard key={game.id} game={game} />
           ))}
+        </ul>
+      </section>
+
+      <section className="profile__summary">
+        <h2 className="profile__subtitle">Add Game Stats</h2>
+        <form className="profile__stats-form" onSubmit={handleAddGame}>
+          <label>
+            Game
+            <input
+              required
+              type="text"
+              value={newGame.name}
+              onChange={(event) => setNewGame({ ...newGame, name: event.target.value })}
+            />
+          </label>
+          <label>
+            Hours Played
+            <input
+              required
+              min="0"
+              type="number"
+              value={newGame.hoursPlayed}
+              onChange={(event) => setNewGame({ ...newGame, hoursPlayed: event.target.value })}
+            />
+          </label>
+          <label>
+            Highest Score
+            <input
+              required
+              min="0"
+              type="number"
+              value={newGame.highestScore}
+              onChange={(event) => setNewGame({ ...newGame, highestScore: event.target.value })}
+            />
+          </label>
+          <label>
+            Rank
+            <input
+              required
+              type="text"
+              value={newGame.rank}
+              onChange={(event) => setNewGame({ ...newGame, rank: event.target.value })}
+            />
+          </label>
+          <button type="submit">Add Game Stats</button>
+        </form>
+      </section>
+
+      <section className="profile__summary">
+        <h2 className="profile__subtitle">Favourite Games</h2>
+        <ul className="profile__games-list">
+          {favouriteGames.length > 0 ? (
+            favouriteGames.map((game) => (
+              <li key={game} className="profile__game-card">
+                <h3 className="profile__game-name">{game}</h3>
+                <button type="button" onClick={() => onRemoveFavourite(game)}>
+                  Remove
+                </button>
+              </li>
+            ))
+          ) : (
+            <li className="profile__game-card">No favourite games yet.</li>
+          )}
         </ul>
       </section>
     </section>

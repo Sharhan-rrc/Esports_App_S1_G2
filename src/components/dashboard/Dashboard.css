@@ -21,12 +21,14 @@
   font-size: 1.3rem;
   margin-bottom: 1rem;
 }
+
 .dashboard__stream-select-label {
   display: flex;
   align-items: center;
   gap: 0.6rem;
   color: var(--text);
 }
+
 .dashboard__stream-select {
   padding: 0.45rem 0.6rem;
   border: 1px solid var(--border);
@@ -34,12 +36,14 @@
   background-color: var(--input);
   color: var(--text-h);
 }
+
 .dashboard__favourite-form {
   display: flex;
   align-items: end;
   gap: 0.8rem;
   flex-wrap: wrap;
 }
+
 .dashboard__favourite-select {
   padding: 0.45rem 0.6rem;
   border: 1px solid var(--border);
@@ -47,6 +51,7 @@
   background-color: var(--input);
   color: var(--text-h);
 }
+
 .dashboard__games-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
