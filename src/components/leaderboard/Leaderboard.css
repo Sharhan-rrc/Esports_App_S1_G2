@@ -189,3 +189,143 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Sprint 3 controls reuse the existing page palette and spacing. */
+.leaderboard__notice:empty {
+  display: none;
+}
+
+.leaderboard__notice {
+  margin-bottom: 1rem;
+  color: var(--text-h);
+  text-align: left;
+}
+
+.leaderboard__error {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid currentColor;
+  border-radius: 6px;
+  color: var(--text-h);
+  text-align: left;
+}
+
+.leaderboard__filters {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr auto;
+  gap: 1rem;
+  align-items: end;
+  text-align: left;
+}
+
+.leaderboard__filters label {
+  display: grid;
+  gap: 0.35rem;
+  color: var(--text-h);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.leaderboard__filters input, .leaderboard__filters select {
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.7rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--code-bg);
+  color: var(--text-h);
+  font: inherit;
+}
+
+.leaderboard__actions, .leaderboard__row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.leaderboard__secondary, .leaderboard__row-actions button {
+  border: 1px solid var(--accent-border);
+  border-radius: 6px;
+  padding: 0.55rem 0.8rem;
+  background: var(--accent-bg);
+  color: var(--text-h);
+  font: inherit;
+  cursor: pointer;
+}
+
+.leaderboard__form-fields .leaderboard__secondary {
+  background: var(--accent-bg);
+  color: var(--text-h);
+}
+
+.leaderboard button {
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.leaderboard button:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.leaderboard button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.leaderboard button:focus-visible, .leaderboard__filters input:focus-visible, .leaderboard__filters select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.leaderboard__results {
+  margin: 1rem 0 1.5rem;
+  color: var(--text);
+  text-align: left;
+  font-size: 0.85rem;
+}
+
+.leaderboard__empty {
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  text-align: left;
+}
+
+.leaderboard__first {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.8rem;
+  min-height: 1.8rem;
+  border-radius: 6px;
+  background: var(--accent-bg);
+  color: var(--text-h);
+  font-weight: 700;
+}
+
+.leaderboard__table td:nth-child(2), .leaderboard__table td:nth-child(3) {
+  overflow-wrap: anywhere;
+}
+
+.leaderboard__table {
+  min-width: 560px;
+}
+
+@media (max-width: 720px) {
+  .leaderboard__filters {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .leaderboard__filters {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .leaderboard button {
+    transition: none;
+  }
+}
