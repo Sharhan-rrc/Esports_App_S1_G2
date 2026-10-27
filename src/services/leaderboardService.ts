@@ -13,9 +13,9 @@ export function createLeaderboardService(
     const scoreText = input.score.trim();
     const score = Number(scoreText);
     if (!games.includes(input.game)) throw new Error("Select a supported game.");
-    if (!name || name.length > 40) throw new Error("Enter a player name between 1 and 40 characters.");
-    if (!scoreText || !Number.isSafeInteger(score) || score < 0) {
-      throw new Error("Enter a whole-number score of zero or more, within the safe number range.");
+    if (name.length < 3 || name.length >= 40) throw new Error("Enter a player name between 3 and 39 characters.");
+    if (!scoreText || !Number.isSafeInteger(score) || score <= 500) {
+      throw new Error("Enter a whole-number score greater than 500, within the safe number range.");
     }
     const duplicate = repository.getAll().some((entry) =>
       entry.id !== editingId && entry.game === input.game &&

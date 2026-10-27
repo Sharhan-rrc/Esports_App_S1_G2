@@ -39,26 +39,27 @@ const makeService = (seed = []) => createLeaderboardService(createLeaderboardRep
 
 test("service validates raw scores and games without changing data on failure", () => {
   const service = makeService();
-  for (const score of ["", " ", "-1", "1.5", "Infinity", "NaN", "9007199254740992"]) {
+  for (const score of ["", " ", "500", "1.5", "Infinity", "NaN", "9007199254740992"]) {
     assert.throws(() => service.addScore({ game: "Valorant", name: "Player", score }));
   }
   assert.throws(() => service.addScore({ game: "Unknown", name: "Player", score: "1" }));
   assert.throws(() => service.addScore({ game: "Valorant", name: "  ", score: "1" }));
+  assert.throws(() => service.addScore({ game: "Valorant", name: "AB", score: "501" }));
   assert.throws(() => service.addScore({ game: "Valorant", name: "A".repeat(41), score: "1" }));
   assert.equal(service.getSnapshot().length, 0);
-  const entry = service.addScore({ game: "Valorant", name: "  Player  ", score: "0" });
+  const entry = service.addScore({ game: "Valorant", name: "  Player  ", score: "501" });
   assert.equal(entry.name, "Player");
-  assert.equal(entry.score, 0);
+  assert.equal(entry.score, 501);
 });
 
 test("one score per player per game; edits can retain their own name", () => {
   const service = makeService();
-  const entry = service.addScore({ game: "Valorant", name: "Player", score: "1" });
-  assert.throws(() => service.addScore({ game: "Valorant", name: " PLAYER ", score: "2" }));
-  service.updateScore(entry.id, { game: "Valorant", name: "Player", score: "3" });
-  service.addScore({ game: "Dota 2", name: "Player", score: "4" });
-  assert.throws(() => service.updateScore(entry.id, { game: "Dota 2", name: "Player", score: "5" }));
-  assert.equal(service.getEntry(entry.id).score, 3);
+  const entry = service.addScore({ game: "Valorant", name: "Player", score: "501" });
+  assert.throws(() => service.addScore({ game: "Valorant", name: " PLAYER ", score: "502" }));
+  service.updateScore(entry.id, { game: "Valorant", name: "Player", score: "503" });
+  service.addScore({ game: "Dota 2", name: "Player", score: "504" });
+  assert.throws(() => service.updateScore(entry.id, { game: "Dota 2", name: "Player", score: "505" }));
+  assert.equal(service.getEntry(entry.id).score, 503);
 });
 
 test("ties share ranks, search preserves ranks, and filtering does not mutate data", () => {

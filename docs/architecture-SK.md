@@ -42,8 +42,8 @@ File: `src/services/leaderboardService.ts`
 The service contains the business rules:
 
 - Games must be supported.
-- Player names are trimmed and must be 1-40 characters.
-- Scores must be nonnegative safe whole numbers.
+- Player names are trimmed and must be 3-39 characters.
+- Scores must be safe whole numbers greater than 500.
 - A player can have only one entry per game, ignoring letter case.
 - Rankings use competition ranking (`1, 1, 3`), with stable ID ordering for ties.
 - Entries are ranked before search is applied, so filtered results keep their
