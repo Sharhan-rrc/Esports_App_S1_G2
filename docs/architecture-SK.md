@@ -1,122 +1,95 @@
-# Sprint 3 architecture - Sharhan Kaji
+# Sprint 3 Architecture - Sharhan Kaji
 
-## Scope and flow
+## Feature overview
 
-My resource is a **leaderboard entry**: one player's highest score in one game.
-This work belongs to `feature/leaderboard`; Dashboard, Profile, Login and Admin
-implementations are unchanged.
+This feature manages leaderboard entries: a player's highest score for a
+specific game. It is implemented on `feature/leaderboard`; Dashboard, Profile,
+Login, and Admin are unchanged.
 
 ```text
 Leaderboard
-  |-- LeaderboardScoreForm -- useLeaderboard -- leaderboardService
-  |-- LeaderboardTables ----- useLeaderboard -- leaderboardService
-                                                 |
-                                        leaderboardRepository
-                                                 |
-                                       leaderboardTestData
+  ├─ LeaderboardScoreForm ─┐
+  └─ LeaderboardTables ────┴─ useLeaderboard
+                              └─ leaderboardService
+                                  └─ leaderboardRepository
+                                      └─ leaderboardData
 ```
 
-## Resource type and test data
+## Main parts
 
-Files: `src/types/leaderboard.ts`, `src/data/leaderboardData.ts`.
+### Types and test data
 
-- **What:** `LeaderboardEntry` defines an ID, game, player name and numeric score.
-  `LeaderboardInput` represents raw form strings. The data file preserves all 25
-  original scores across five games and assigns each entry a globally unique ID.
-- **Why:** resource shape is shared across layers. Positions are derived from
-  scores, so storing them would risk stale ranks after edits or deletion.
-- **Where:** the repository imports the typed array as its initial dataset;
-  the service uses the separate game catalogue to validate game selections.
+Files: `src/types/leaderboard.ts`, `src/data/leaderboardData.ts`
 
-## Custom hook: useLeaderboard
+- `LeaderboardEntry` stores an ID, game, player name, and score.
+- `LeaderboardInput` represents form values before validation.
+- The seed data contains 25 scores across five games, with unique IDs.
+- Ranks are calculated instead of stored, so they cannot become outdated.
 
-File: `src/hooks/useLeaderboard.ts`.
+### `useLeaderboard`
 
-- **What:** exposes the shared entries, game choices, ranked results, search and
-  selected-game state, error feedback, and add/update/delete actions. The comment
-  block in the hook documents every returned value and its use.
-- **Why:** filters and error display are presentation state. Validation and rank
-  decisions are delegated to the service. `useSyncExternalStore` listens through
-  the service to a stable, immutable repository snapshot, so two hook consumers
-  observe the same data instead of keeping separate arrays. Each consumer has
-  its own local filter/error state. React cleans up subscriptions on unmount.
-- **Where:** both `LeaderboardScoreForm` and `LeaderboardTables` call the hook.
-  A form save updates the tables immediately, without passing entries through
-  the parent page. Memoization recalculates displayed results when data or
-  filters change.
+File: `src/hooks/useLeaderboard.ts`
 
-## Business service: leaderboardService
+This hook is used by both leaderboard components. It provides entries, game
+choices, ranked results, filters, errors, and add/update/delete actions.
+`useSyncExternalStore` keeps both components connected to the same repository
+data, while each component keeps its own filter and error state.
 
-File: `src/services/leaderboardService.ts`.
+### `leaderboardService`
 
-- **What:** validates supported games, trimmed player names (1-40 characters),
-  nonnegative safe whole-number scores, and one entry per player per game
-  (case-insensitive). Provides add/update/delete actions and builds rankings.
-- **Why:** these are consistent domain rules, independent of React or storage.
-  Ties use competition ranking: 1, 1, 3. Equal-score rows have stable ID order.
-  Players are ranked before search is applied, preserving actual positions in
-  filtered results. Editing excludes the current entry from duplicate checks.
-- **Where:** the hook delegates actions and result preparation to this service.
-  Therefore both the score form and table components reuse the same service.
-  A repository can be injected into `createLeaderboardService` for isolated tests.
+File: `src/services/leaderboardService.ts`
 
-## Data repository: leaderboardRepository
+The service contains the business rules:
 
-File: `src/repositories/leaderboardRepository.ts`.
+- Games must be supported.
+- Player names are trimmed and must be 1-40 characters.
+- Scores must be nonnegative safe whole numbers.
+- A player can have only one entry per game, ignoring letter case.
+- Rankings use competition ranking (`1, 1, 3`), with stable ID ordering for ties.
+- Entries are ranked before search is applied, so filtered results keep their
+  real positions.
 
-- **What:** `getAll`/`getById` read entries; `create`, `update`, and `delete`
-  provide CRUD. The repository owns ID allocation, immutable snapshots and
-  change subscriptions. Missing IDs produce a handled error.
-- **Why:** all score storage lives in one adapter. Its initial array is copied
-  from the test-data module; updates replace snapshots and never mutate the
-  imported seed. Service/UI code does not access storage directly.
-- **Where:** used by `leaderboardService`; `createLeaderboardRepository` creates
-  isolated instances for tests. A future backend adapter belongs here.
+The service is independent of React and storage. A repository can be injected
+for isolated tests.
 
-## Refactored components
+### `leaderboardRepository`
 
-- `Leaderboard.tsx`: coordinates the selected edit entry and success announcements.
-  It composes the two hook consumers rather than owning resource arrays.
-- `LeaderboardScoreForm.tsx`: controlled add/edit fields, edit focus, cancel action
-  and accessible validation feedback. The service handles all business checks.
-- `LeaderboardTables.tsx`: search/game controls, score tables, empty results and
-  inline delete confirmation. It displays the service's computed positions.
-- `GameIcon.tsx`: presentation-only game badge, keeping the existing icon style.
+File: `src/repositories/leaderboardRepository.ts`
 
-Each component has an explanation comment. Styling remains scoped to the
-Leaderboard and reuses the branch's existing CSS variables, colours, icons and
-layout. New controls stack on mobile; wide tables scroll within their container.
-Button transitions respect reduced-motion preferences.
+The repository is the only storage layer. It provides `getAll`, `getById`,
+`create`, `update`, and `delete`, and it also manages IDs, immutable snapshots,
+and subscriptions. Missing IDs return handled errors. The current repository
+uses in-memory seed data; a future backend adapter can be added here.
 
-## Shared state and team integration
+## Components
 
-The two components already demonstrate shared resource state through the full
-architecture. Entries survive component remounts during the current app session.
-Other pages can consume the same service/hook when the team integrates branches.
-Coordinate game/user IDs and a shared game catalogue then; do not create duplicate
-leaderboard storage in App or Admin. The game catalogue is currently local to
-Sharhan's resource so teammates are not blocked by this branch.
+- `Leaderboard.tsx` coordinates editing and success messages.
+- `LeaderboardScoreForm.tsx` handles controlled add/edit fields, focus,
+  cancellation, and accessible errors.
+- `LeaderboardTables.tsx` handles search, game filters, score tables, empty
+  results, and delete confirmation.
+- `GameIcon.tsx` displays game badges.
 
-## Limits
+The components use the existing scoped styles, variables, colours, icons, and
+layout. Tables scroll on small screens, controls stack on mobile, and button
+transitions respect reduced-motion preferences.
 
-This sprint uses synchronous in-memory test data, with no external requests,
-backend, authentication or local-storage persistence. Refreshing the browser
-restores the original 25 entries. The hook reports CRUD validation failures;
-there is no artificial network loading indicator for synchronous data. When a
-backend is added, requests belong in the repository and asynchronous loading
-states can be added to the hook.
+## Shared state and limitations
 
-## Validation and demonstration
+Both components share the same entries and stay synchronized when one changes
+the data. Entries last for the current browser session and are not duplicated
+in `App` or `Admin`.
 
-- `npm test` (tested with Node 24): seed integrity, CRUD, immutable snapshots,
-  subscriptions/unsubscribe, invalid input, duplicate checks, ranking ties,
-  search preserving ranks, and deletion recalculating positions.
-- `npm run lint` and `npm run build`.
-- In the browser, add a player, reject a duplicate, edit the score, search/filter
-  and check rank, then cancel/confirm deletion. Both hook consumers stay in sync.
-- Inspect desktop and 390px mobile layouts and keyboard focus states.
+This sprint uses synchronous in-memory data only. There are no backend
+requests, authentication, or local-storage persistence. Refreshing the browser
+restores the original 25 entries. Backend requests and loading states should be
+added through the repository and hook later.
 
-This covers individual typed resource/data, repository CRUD, a working component
-flow, component comments and personal architecture documentation. Reusing the
-hook in two components and the service through both hook instances also provides
-working evidence for the team's hook/service reuse requirements.
+## Validation
+
+- `npm test`: seed integrity, CRUD, immutable snapshots, subscriptions,
+  validation, duplicates, ranking ties, filtering, and deletion.
+- `npm run lint`
+- `npm run build`
+- Browser checks: add, reject duplicates, edit, search/filter, verify ranks,
+  cancel/confirm deletion, and test desktop, 390px mobile, and keyboard focus.
