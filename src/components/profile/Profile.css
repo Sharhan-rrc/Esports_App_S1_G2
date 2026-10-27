@@ -153,3 +153,55 @@
   color: var(--muted);
   font-size: 0.9rem;
 }
+
+/* Profile-scoped theme keeps the shared pages untouched. */
+.profile {
+  --bg: #111317;
+  --surface: #24262b;
+  --text-h: #f4f1ea;
+  --text: #aeb2bc;
+  --muted: #aeb2bc;
+  --border: #2d3037;
+  --accent: #d8b56e;
+  --accent-hover: #e8ca8b;
+  --accent-bg: #302a20;
+  --accent-border: #786440;
+  --input: #121212;
+  --success: #00ff9c;
+  --error: #ff8585;
+  text-align: left;
+  box-sizing: border-box;
+  width: 100%;
+}
+.profile__title, .profile__subtitle { color: var(--text-h); }
+.profile__notice { color: var(--text); }
+.profile__feedback { color: var(--success); min-height: 1.5em; margin-top: 1rem; }
+.profile__error { color: var(--error); margin-block: 0.75rem; }
+.profile__totals {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+  gap: 1rem;
+  margin: 1rem 0 2rem;
+}
+.profile__totals div { background: var(--surface); padding: 1rem; border-radius: 8px; }
+.profile__totals dt { color: var(--text); }
+.profile__totals dd { margin: 0.5rem 0 0; font-weight: 700; color: var(--accent); }
+.profile__game-name, .profile__favourite-name, .profile__totals dd { overflow-wrap: anywhere; }
+.profile__games-list { grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); }
+.profile__form { margin-top: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr)); }
+.profile__form-label { min-width: 0; }
+.profile__form-input { min-width: 0; box-sizing: border-box; width: 100%; font: inherit; }
+.profile__remove-stat {
+  margin-top: 1rem; padding: 0.5rem 0.75rem; background: transparent;
+  color: var(--text-h); border: 1px solid var(--border); border-radius: 8px; cursor: pointer;
+}
+.profile__remove-stat:hover { border-color: var(--accent); }
+.profile__favourite-remove { width: 2.75rem; height: 2.75rem; flex-shrink: 0; }
+.profile :is(button, input):focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 480px) {
+  .profile { padding: 1rem; }
+  .profile__form-button { justify-self: stretch; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .profile * { transition: none; }
+}
