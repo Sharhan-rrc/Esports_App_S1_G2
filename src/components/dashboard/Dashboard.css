@@ -4,71 +4,82 @@
   padding: 2rem;
   border-radius: 12px;
 }
-
 .dashboard__header {
   margin-bottom: 1.5rem;
 }
-
 .dashboard__title {
   font-size: 1.9rem;
   margin-bottom: 0.4rem;
 }
-
 .dashboard__subtitle {
   color: var(--text);
 }
-
 .dashboard__section {
   margin-top: 1.5rem;
 }
-
 .dashboard__section-title {
   font-size: 1.3rem;
   margin-bottom: 1rem;
 }
-
+.dashboard__stream-select-label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--text);
+}
+.dashboard__stream-select {
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background-color: var(--input);
+  color: var(--text-h);
+}
+.dashboard__favourite-form {
+  display: flex;
+  align-items: end;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+.dashboard__favourite-select {
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background-color: var(--input);
+  color: var(--text-h);
+}
 .dashboard__games-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
 }
-
 .dashboard__game-card {
   background-color: var(--surface);
   border-radius: 10px;
   padding: 1rem;
   border: 1px solid var(--border);
 }
-
 .dashboard__game-name {
   font-size: 1.1rem;
   margin-bottom: 0.4rem;
 }
-
 .dashboard__game-top-player span {
   color: var(--success);
 }
-
 .dashboard__streams-list {
   list-style: none;
   padding: 0;
   margin-top: 0.5rem;
 }
-
 .dashboard__stream-item {
   background-color: var(--surface);
   border-radius: 10px;
   padding: 0.8rem 1rem;
   margin-bottom: 0.6rem;
 }
-
 .dashboard__stream-title {
   font-size: 1.05rem;
   margin-bottom: 0.3rem;
 }
-
 .dashboard__stream-detail span {
   color: var(--info);
 }
-
- 
