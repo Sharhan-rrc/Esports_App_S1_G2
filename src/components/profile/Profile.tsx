@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import "./Profile.css";
-import { Crosshair, Gamepad2, Rocket, Swords, Target, X } from "lucide-react";
+import { Crosshair, Gamepad2, Rocket, Swords, Target } from "lucide-react";
 
-import { parseSavedGames, summarizeGames, validateStats } from "./profile-model";
-import type { GameStat } from "./profile-model";
+import { useProfileStats } from "../../hooks/useProfileStats";
+import type { GameStat } from "../../types/profile";
+import FavouriteGames from "../shared/FavouriteGames";
 
-const storageKey = "esports.profile.rudra.stats.v1";
-
-function loadGames() {
-  try {
-    return parseSavedGames(localStorage.getItem(storageKey));
-  } catch {
-    return parseSavedGames(null);
-  }
+function ProfileSummary() {
+  const { summary } = useProfileStats();
+  return <dl className="profile__totals" aria-label="Overall performance">
+    <div><dt>Games played</dt><dd>{summary.gamesPlayed}</dd></div>
+    <div><dt>Total hours</dt><dd>{Number(summary.totalHours.toFixed(2))}</dd></div>
+    <div><dt>Most played</dt><dd>{summary.mostPlayed?.name ?? "No games yet"}</dd></div>
+  </dl>;
 }
 
 function getGameIcon(name: string) {
@@ -35,9 +35,10 @@ function getGameIcon(name: string) {
 type GameCardProps = {
   game: GameStat;
   onRemove: (id: number) => void;
+  onEdit: (game: GameStat) => void;
 };
 
-function GameCard({ game, onRemove }: GameCardProps) {
+function GameCard({ game, onRemove, onEdit }: GameCardProps) {
   return (
     <li className="profile__game-card">
       <div className="profile__game-logo" aria-hidden="true">{getGameIcon(game.name)}</div>
@@ -51,19 +52,16 @@ function GameCard({ game, onRemove }: GameCardProps) {
       <p className="profile__game-detail">
         Current Rank: <span>{game.rank}</span>
       </p>
+      <button type="button" className="profile__remove-stat" onClick={() => onEdit(game)}>Edit stats</button>
       <button type="button" className="profile__remove-stat" onClick={() => onRemove(game.id)}
         aria-label={`Remove stats for ${game.name}`}>Remove stats</button>
     </li>
   );
 }
 
-type ProfileProps = {
-  favouriteGames: string[];
-  onRemoveFavourite: (game: string) => void;
-};
-
-function Profile({ favouriteGames, onRemoveFavourite }: ProfileProps) {
-  const [games, setGames] = useState<GameStat[]>(loadGames);
+function Profile() {
+  const { games, error, message, storageError, remember, add, update, remove, setRemember } = useProfileStats();
+  const [editingId, setEditingId] = useState<number | undefined>();
   const [form, setForm] = useState({
     name: "",
     hoursPlayed: "",
@@ -71,44 +69,14 @@ function Profile({ favouriteGames, onRemoveFavourite }: ProfileProps) {
     rank: "",
   });
 
-  const [error, setError] = useState("");
-  const [message, setMessage] = useState("");
-  const [storageError, setStorageError] = useState("");
-  const summary = summarizeGames(games);
-
-  const saveGames = (nextGames: GameStat[]) => {
-    setGames(nextGames);
-    try {
-      localStorage.setItem(storageKey, JSON.stringify(nextGames));
-      setStorageError("");
-    } catch {
-      setStorageError("Stats are available for this session, but could not be saved on this device.");
-    }
+  const resetForm = () => { setEditingId(undefined); setForm({ name: "", hoursPlayed: "", highestScore: "", rank: "" }); };
+  const handleEdit = (game: GameStat) => {
+    setEditingId(game.id);
+    setForm({ name: game.name, hoursPlayed: String(game.hoursPlayed), highestScore: String(game.highestScore), rank: game.rank });
   };
-
-  const handleRemove = (id: number) => {
-    saveGames(games.filter(game => game.id !== id));
-    setMessage("Game stats removed.");
-  };
-
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const validationError = validateStats(form, games);
-    setError(validationError);
-    setMessage("");
-    if (validationError) return;
-
-    const newGame: GameStat = {
-      id: Math.max(0, ...games.map(game => game.id)) + 1,
-      name: form.name.trim(),
-      hoursPlayed: Number(form.hoursPlayed),
-      highestScore: Number(form.highestScore),
-      rank: form.rank.trim() || "Unranked",
-    };
-
-    saveGames([...games, newGame]);
-    setMessage(`${newGame.name} stats added.`);
-    setForm({ name: "", hoursPlayed: "", highestScore: "", rank: "" });
+    if (editingId === undefined ? add(form) : update(editingId, form)) resetForm();
   };
 
   return (
@@ -118,26 +86,24 @@ function Profile({ favouriteGames, onRemoveFavourite }: ProfileProps) {
         <p className="profile__username">Username: Rudra</p>
       </header>
 
-      <p className="profile__notice">Demo profile for Rudra Patel. Personal stats are saved on this device.</p>
+      <p className="profile__notice">Demo profile for Rudra Patel. Stats remain in this session unless you choose to remember them.</p>
       <p role="status" className="profile__feedback">{message}</p>
       {storageError && <p role="alert" className="profile__error">{storageError}</p>}
-      <dl className="profile__totals" aria-label="Overall performance">
-        <div><dt>Games played</dt><dd>{summary.gamesPlayed}</dd></div>
-        <div><dt>Total hours</dt><dd>{Number(summary.totalHours.toFixed(2))}</dd></div>
-        <div><dt>Most played</dt><dd>{summary.mostPlayed?.name ?? "No games yet"}</dd></div>
-      </dl>
+      <label className="profile__notice"><input type="checkbox" checked={remember} onChange={event => setRemember(event.target.checked)} /> Remember my stats on this device</label>
+      <p>Turning this off removes saved stats from this device and keeps your current session.</p>
+      <ProfileSummary />
       <section className="profile__summary">
         <h2 className="profile__subtitle">Game Performance Summary</h2>
         {games.length === 0 && <p>No game stats yet. Add your first game below.</p>}
         <ul className="profile__games-list">
           {games.map((game) => (
-            <GameCard key={game.id} game={game} onRemove={handleRemove} />
+            <GameCard key={game.id} game={game} onRemove={(id) => { if (remove(id) && editingId === id) resetForm(); }} onEdit={handleEdit} />
           ))}
         </ul>
       </section>
 
       <section className="profile__section">
-        <h2 className="profile__subtitle">Add Your Stats</h2>
+        <h2 className="profile__subtitle">{editingId === undefined ? "Add Your Stats" : "Edit Your Stats"}</h2>
         <p id="profile-form-help">Add one card per game. Rank is optional; hours and score can be zero.</p>
         {error && <p id="profile-form-error" role="alert" className="profile__error">{error}</p>}
         <form className="profile__form" onSubmit={handleSubmit} aria-describedby={error ? "profile-form-help profile-form-error" : "profile-form-help"}>
@@ -190,36 +156,13 @@ function Profile({ favouriteGames, onRemoveFavourite }: ProfileProps) {
             />
           </label>
           <button type="submit" className="profile__form-button">
-            Add Game Stat
+            {editingId === undefined ? "Add Game Stat" : "Save Changes"}
           </button>
+          {editingId !== undefined && <button type="button" className="profile__form-button" onClick={resetForm}>Cancel edit</button>}
         </form>
       </section>
 
-      <section className="profile__section">
-        <h2 className="profile__subtitle">Favourite Games</h2>
-        {favouriteGames.length > 0 ? (
-          <ul className="profile__favourites-list">
-            {favouriteGames.map((game) => (
-              <li key={game} className="profile__favourite-item">
-                <span className="profile__favourite-icon">{getGameIcon(game)}</span>
-                <span className="profile__favourite-name">{game}</span>
-                <button
-                  type="button"
-                  className="profile__favourite-remove"
-                  onClick={() => { onRemoveFavourite(game); setMessage(`${game} removed from favourites.`); }}
-                  aria-label={`Remove ${game} from favourites`}
-                >
-                  <X size={16} aria-hidden="true" />
-                </button>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="profile__favourites-empty">
-            No favourite games yet. Add some from the Dashboard.
-          </p>
-        )}
-      </section>
+      <FavouriteGames />
     </section>
   );
 }
