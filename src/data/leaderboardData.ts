@@ -1,8 +1,5 @@
 import type { LeaderboardEntry } from "../types/leaderboard.ts";
 
-/** Game catalogue for this resource; coordinate shared IDs at team integration. */
-export const leaderboardGames: readonly string[] = ["Valorant", "League of Legends", "CS:GO", "Dota 2", "Fortnite"];
-
 /** Original 25 player scores with globally unique resource IDs. */
 export const leaderboardTestData: readonly LeaderboardEntry[] = [
   {

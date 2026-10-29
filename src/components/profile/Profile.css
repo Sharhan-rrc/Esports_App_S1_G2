@@ -4,73 +4,204 @@
   padding: 2rem;
   border-radius: 12px;
 }
- 
+
 .profile__header {
   margin-bottom: 1.5rem;
 }
- 
+
 .profile__title {
   font-size: 1.8rem;
   margin-bottom: 0.4rem;
 }
- 
+
 .profile__username {
   color: var(--text);
 }
- 
+
+.profile__section {
+  margin-top: 1.75rem;
+}
+
 .profile__subtitle {
   font-size: 1.3rem;
   margin-bottom: 1rem;
 }
- 
+
 .profile__games-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
- 
+
 .profile__game-card {
   background-color: var(--surface);
   border-radius: 10px;
   padding: 1rem;
   border: 1px solid var(--border);
 }
- 
+
+.profile__game-logo {
+  display: grid;
+  place-items: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
 .profile__game-name {
   font-size: 1.1rem;
   margin-bottom: 0.6rem;
 }
- 
+
 .profile__game-detail span {
   color: var(--success);
 }
 
-.profile__stats-form {
+.profile__form {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 1rem;
   align-items: end;
-}
-
-.profile__stats-form label {
-  display: grid;
-  gap: 0.4rem;
-  color: var(--text);
-}
-
-.profile__stats-form input {
-  padding: 0.55rem 0.7rem;
+  background-color: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.profile__form-label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  color: var(--text);
+  gap: 0.4rem;
+}
+
+.profile__form-input {
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--accent);
   background-color: var(--input);
   color: var(--text-h);
 }
 
-.profile__stats-form button {
-  padding: 0.55rem 0.7rem;
-  border: 0;
-  border-radius: 6px;
+.profile__form-button {
+  padding: 0.65rem 1.1rem;
+  border-radius: 8px;
+  border: none;
   background-color: var(--accent);
-  color: var(--bg);
+  color: #111317;
+  font-weight: 600;
   cursor: pointer;
+  transition: background-color 0.2s;
+  grid-column: 1 / -1;
+  justify-self: start;
+}
+
+.profile__form-button:hover {
+  background-color: var(--accent-hover);
+}
+
+.profile__favourites-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.profile__favourite-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--surface);
+  border: 1px solid var(--accent-border);
+  border-radius: 999px;
+  padding: 0.4rem 0.5rem 0.4rem 0.9rem;
+  font-size: 0.9rem;
+}
+
+.profile__favourite-icon {
+  display: inline-flex;
+  color: var(--accent);
+}
+
+.profile__favourite-remove {
+  display: grid;
+  place-items: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.2s, background-color 0.2s;
+}
+
+.profile__favourite-remove:hover {
+  color: var(--error);
+  background-color: rgba(255, 59, 59, 0.12);
+}
+
+.profile__favourites-empty {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* Profile-scoped theme keeps the shared pages untouched. */
+.profile {
+  --bg: #111317;
+  --surface: #24262b;
+  --text-h: #f4f1ea;
+  --text: #aeb2bc;
+  --muted: #aeb2bc;
+  --border: #2d3037;
+  --accent: #d8b56e;
+  --accent-hover: #e8ca8b;
+  --accent-bg: #302a20;
+  --accent-border: #786440;
+  --input: #121212;
+  --success: #00ff9c;
+  --error: #ff8585;
+  text-align: left;
+  box-sizing: border-box;
+  width: 100%;
+}
+.profile__title, .profile__subtitle { color: var(--text-h); }
+.profile__notice { color: var(--text); }
+.profile__feedback { color: var(--success); min-height: 1.5em; margin-top: 1rem; }
+.profile__error { color: var(--error); margin-block: 0.75rem; }
+.profile__totals {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+  gap: 1rem;
+  margin: 1rem 0 2rem;
+}
+.profile__totals div { background: var(--surface); padding: 1rem; border-radius: 8px; }
+.profile__totals dt { color: var(--text); }
+.profile__totals dd { margin: 0.5rem 0 0; font-weight: 700; color: var(--accent); }
+.profile__game-name, .profile__favourite-name, .profile__totals dd { overflow-wrap: anywhere; }
+.profile__games-list { grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); }
+.profile__form { margin-top: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr)); }
+.profile__form-label { min-width: 0; }
+.profile__form-input { min-width: 0; box-sizing: border-box; width: 100%; font: inherit; }
+.profile__remove-stat {
+  margin-top: 1rem; padding: 0.5rem 0.75rem; background: transparent;
+  color: var(--text-h); border: 1px solid var(--border); border-radius: 8px; cursor: pointer;
+}
+.profile__remove-stat:hover { border-color: var(--accent); }
+.profile__favourite-remove { width: 2.75rem; height: 2.75rem; flex-shrink: 0; }
+.profile :is(button, input):focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 480px) {
+  .profile { padding: 1rem; }
+  .profile__form-button { justify-self: stretch; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .profile * { transition: none; }
 }
