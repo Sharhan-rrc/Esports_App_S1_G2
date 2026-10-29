@@ -1,0 +1,60 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { createProfileRepository } from '../src/repositories/profileRepository.ts';
+import { createProfileService } from '../src/services/profileService.ts';
+import { gameRepository } from '../src/repositories/gameRepository.ts';
+import { leaderboardService } from '../src/services/leaderboardService.ts';
+import { administrationService } from '../src/services/administrationService.ts';
+
+const form = { name: 'Test Game', hoursPlayed: '2.5', highestScore: '0', rank: '' };
+test('profile CRUD validates edits, updates both consumers and keeps snapshots stable', () => {
+  const repo = createProfileRepository();
+  const service = createProfileService(repo);
+  const before = repo.getSnapshot();
+  assert.equal(repo.getSnapshot(), before);
+  let updates = 0;
+  repo.subscribe(() => updates++);
+  const record = service.add(form);
+  assert.equal(record.rank, 'Unranked');
+  assert.throws(() => service.add(form));
+  service.update(record.id, { ...form, highestScore: '20' });
+  assert.equal(repo.getById(record.id).highestScore, 20);
+  assert.equal(service.summarize(repo.getAll()).gamesPlayed, before.games.length + 1);
+  assert.throws(() => service.update(record.id, { ...form, name: 'Valorant' }));
+  service.remove(record.id);
+  assert.equal(updates, 3);
+  assert.equal(before.games.length, repo.getAll().length);
+});
+test('profile persistence is opt-in, survives reload and is removed on opt-out', () => {
+  const values = new Map();
+  const storage = { getItem: key => values.get(key) ?? null, setItem: (key,value) => values.set(key,value), removeItem: key => values.delete(key) };
+  const repo = createProfileRepository(storage);
+  createProfileService(repo).add(form);
+  assert.equal(values.size, 0);
+  repo.setRemember(true);
+  assert.equal(createProfileRepository(storage).getAll().at(-1).name, 'Test Game');
+  repo.setRemember(false);
+  assert.equal(values.size, 0);
+  assert.equal(repo.getAll().at(-1).name, 'Test Game');
+});
+test('storage failures preserve session changes and expose feedback', () => {
+  const storage = { getItem() { throw Error(); }, setItem() { throw Error(); }, removeItem() { throw Error(); } };
+  const repo = createProfileRepository(storage);
+  repo.setRemember(true);
+  createProfileService(repo).add(form);
+  assert.equal(repo.getAll().at(-1).name, 'Test Game');
+  assert.ok(repo.getSnapshot().storageError);
+});
+test('admin catalogue changes notify leaderboard and referenced games cannot be removed', () => {
+  const previous = leaderboardService.getSnapshot();
+  let updates = 0;
+  const stop = leaderboardService.subscribe(() => updates++);
+  const game = administrationService.addGame({ name: 'Integration Test', genre: 'Test', topPlayer: 'Demo' });
+  assert.ok(leaderboardService.getGames().includes(game.name));
+  assert.notEqual(leaderboardService.getSnapshot(), previous);
+  assert.equal(updates, 1);
+  administrationService.removeGame(game.id);
+  assert.equal(gameRepository.getById(game.id), undefined);
+  assert.throws(() => administrationService.removeGame(1), /before deleting/);
+  stop();
+});

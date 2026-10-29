@@ -9,8 +9,15 @@
 }
 
 .login__title {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
   font-size: 1.8rem;
   margin-bottom: 1.5rem;
+}
+
+.login__title-icon {
+  color: var(--accent);
 }
 
 .login__form {
@@ -69,4 +76,73 @@
 
 .login__benefit-item {
   margin-bottom: 0.4rem;
+}
+
+/* Sprint 2: game-picker popup shown after mock login */
+
+.login__popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  z-index: 50;
+}
+
+.login__popup {
+  width: min(420px, 100%);
+  background-color: var(--surface);
+  border: 1px solid var(--accent-border);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.login__popup-title {
+  font-size: 1.3rem;
+  margin-bottom: 0.4rem;
+  color: var(--text-h);
+}
+
+.login__popup-subtitle {
+  color: var(--text);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.login__popup-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.login__popup-item {
+  background-color: var(--input);
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+}
+
+.login__popup-label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.login__popup-icon {
+  display: inline-flex;
+  color: var(--accent);
+}
+
+.login__popup-continue {
+  width: 100%;
+}
+
+.login__popup-continue:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
