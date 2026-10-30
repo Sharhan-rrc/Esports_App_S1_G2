@@ -225,3 +225,4 @@ function Profile({ favouriteGames, onRemoveFavourite }: ProfileProps) {
 }
 
 export default Profile;
+
