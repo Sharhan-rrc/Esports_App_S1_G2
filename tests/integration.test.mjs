@@ -1,10 +1,10 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { createProfileRepository } from '../src/repositories/profileRepository.ts';
-import { createProfileService } from '../src/services/profileService.ts';
-import { gameRepository } from '../src/repositories/gameRepository.ts';
-import { leaderboardService } from '../src/services/leaderboardService.ts';
-import { administrationService } from '../src/services/administrationService.ts';
+import { createProfileRepository } from '../apps/frontend/src/repositories/profileRepository.ts';
+import { createProfileService } from '../apps/frontend/src/services/profileService.ts';
+import { gameRepository } from '../apps/frontend/src/repositories/gameRepository.ts';
+import { leaderboardService } from '../apps/frontend/src/services/leaderboardService.ts';
+import { administrationService } from '../apps/frontend/src/services/administrationService.ts';
 
 const form = { name: 'Test Game', hoursPlayed: '2.5', highestScore: '0', rank: '' };
 test('profile CRUD validates edits, updates both consumers and keeps snapshots stable', () => {
@@ -45,16 +45,23 @@ test('storage failures preserve session changes and expose feedback', () => {
   assert.equal(repo.getAll().at(-1).name, 'Test Game');
   assert.ok(repo.getSnapshot().storageError);
 });
-test('admin catalogue changes notify leaderboard and referenced games cannot be removed', () => {
-  const previous = leaderboardService.getSnapshot();
+test('admin catalogue changes notify leaderboard and referenced games cannot be removed', async () => {
+  const originalFetch = globalThis.fetch;
   let updates = 0;
   const stop = leaderboardService.subscribe(() => updates++);
-  const game = administrationService.addGame({ name: 'Integration Test', genre: 'Test', topPlayer: 'Demo' });
-  assert.ok(leaderboardService.getGames().includes(game.name));
-  assert.notEqual(leaderboardService.getSnapshot(), previous);
-  assert.equal(updates, 1);
-  administrationService.removeGame(game.id);
-  assert.equal(gameRepository.getById(game.id), undefined);
-  assert.throws(() => administrationService.removeGame(1), /before deleting/);
-  stop();
+  const originalGames = gameRepository.getAll();
+  let records = [...originalGames];
+  globalThis.fetch = async (_url, options = {}) => {
+    if (options.method === 'POST') { const game = { ...JSON.parse(options.body), id: 10000 }; records.push(game); return Response.json(game, {status:201}); }
+    if (options.method === 'DELETE') { records = records.filter(game => game.id !== 10000); return new Response(null, {status:204}); }
+    return Response.json(records);
+  };
+  try {
+    const game = await administrationService.addGame({ name: 'Integration Test', genre: 'Test', topPlayer: 'Demo' });
+    assert.ok(leaderboardService.getGames().includes(game.name));
+    assert.equal(updates, 1);
+    await administrationService.removeGame(game.id);
+    assert.equal(gameRepository.getById(game.id), undefined);
+    await assert.rejects(administrationService.removeGame(1), /before deleting/);
+  } finally { globalThis.fetch = originalFetch; stop(); }
 });

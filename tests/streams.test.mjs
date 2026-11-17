@@ -1,8 +1,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { createStreamRepository } from "../src/repositories/streamRepository.ts";
-import { createStreamService } from "../src/services/streamService.ts";
-import { streamTestData } from "../src/data/streamData.ts";
+import { createStreamRepository } from "../apps/frontend/src/repositories/streamRepository.ts";
+import { createStreamService } from "../apps/frontend/src/services/streamService.ts";
+import { streamTestData } from "../apps/frontend/src/data/streamData.ts";
 test("Parneet has ten typed seed records and independent CRUD", () => {
   assert.equal(streamTestData.length, 10);
   const repo = createStreamRepository([]);
