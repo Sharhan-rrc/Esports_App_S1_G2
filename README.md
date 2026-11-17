@@ -1,97 +1,40 @@
 # Esports App
 
-An esports-themed React and TypeScript application with a mock login and three connected views: Dashboard, Leaderboard, and Profile.
+## Local setup
 
-## Run Locally
+Use Node 22 or newer. From the repository root:
 
-```bash
+```powershell
 npm install
+Copy-Item apps/backend/.env.example apps/backend/.env
+Copy-Item apps/frontend/.env.example apps/frontend/.env
+npm run db:setup
 npm run dev
 ```
 
-## Validate
+Frontend: http://localhost:5173. API: http://localhost:3000.
+If either environment file already exists, keep its values rather than overwriting it.
+`npm run dev:frontend` and `npm run dev:backend` run the apps separately.
 
-```bash
-npm run lint
+## Sprint 4 Leaderboard
+
+Scores follow component → useLeaderboard → frontend service → API repository → Express route → validation → controller → Prisma service → SQLite.
+Games and players have their own tables; Score references their IDs. Case-normalized player keys prevent duplicate player/game scores. Rank is calculated rather than stored. Existing theme and score validation are retained. Loading, pending writes and failures are shown in the UI; failed submissions keep form values.
+
+SQLite is the local SQL development database. Each developer has their own ignored database file. Apply committed migrations with `npm run db:setup`; create new migrations with `npm run db:migrate -- --name description`. Seed data is only added to an empty catalogue. Starting the API does not reseed it.
+
+The demo Login does not authenticate users. CORS allows configured frontend origins; originless API tools are allowed for testing. This is a local development setup. A PostgreSQL/cloud deployment requires provider-specific migrations and deployment configuration.
+
+Dashboard streams and Profile stats remain at their Sprint 3 implementation on this branch; their separate Sprint 4 files are supplied to their owners. Favourites remain session data.
+
+## Checks
+
+```powershell
 npm run build
+npm run lint
+npm test
 ```
 
-The app uses a dark charcoal interface with gold navigation accents. See [Styles.md](Styles.md) for the shared visual guidelines and [Project_Details.md](Project_Details.md) for the team feature breakdown.
+Run database setup before tests. API tests create uniquely named test records and clean them up. They cover persistent CRUD, another Prisma connection, API restart, invalid requests, duplicate conflicts and CORS. Frontend tests cover failed requests and confirmed-cache updates.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
-
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
-
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
-
-
-Deploying again for vercel as sharhan to check it
+Windows environments that block workspace symlinks may need dependencies installed separately with `npm install --prefix apps/frontend --workspaces=false` and `npm install --prefix apps/backend --workspaces=false`. Standard root installation remains the normal workflow.

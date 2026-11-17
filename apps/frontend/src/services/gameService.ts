@@ -13,6 +13,7 @@ function validate(input: GameInput, id?: number): GameInput {
   return { name, genre, topPlayer };
 }
 export const gameService = {
+  load: gameRepository.load,
   subscribe: gameRepository.subscribe,
   getSnapshot: gameRepository.getAll,
   addGame: (input: GameInput) => gameRepository.create(validate(input)),
