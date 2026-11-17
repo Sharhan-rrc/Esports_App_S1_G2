@@ -17,7 +17,7 @@ interface Props {
  * by entry ID to reset its draft when an edit is selected or cancelled.
  */
 export default function LeaderboardScoreForm({ editingEntry, onCancel, onSaved }: Props) {
-  const { games, addScore, updateScore, error, clearError } = useLeaderboard();
+  const { games, addScore, updateScore, error, clearError, loading, saving, loaded } = useLeaderboard();
   const [form, setForm] = useState<LeaderboardInput>({
     game: editingEntry?.game ?? games[0] ?? "",
     name: editingEntry?.name ?? "",
@@ -34,9 +34,9 @@ export default function LeaderboardScoreForm({ editingEntry, onCancel, onSaved }
     setForm((current) => ({ ...current, [field]: value }));
   }
 
-  function submit(event: FormEvent<HTMLFormElement>) {
+  async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const saved = editingEntry ? updateScore(editingEntry.id, form) : addScore(form);
+    const saved = await (editingEntry ? updateScore(editingEntry.id, form) : addScore(form));
     if (saved) {
       setForm((current) => ({ ...current, name: "", score: "" }));
       onSaved(editingEntry ? "Score updated. Rankings have been recalculated." : "Score added. Rankings have been updated.");
@@ -54,7 +54,7 @@ export default function LeaderboardScoreForm({ editingEntry, onCancel, onSaved }
           <p>{editingEntry ? "Update this player's game, name or highest score." : "Add a player to the selected game leaderboard."}</p>
         </div>
       </div>
-      <div className="leaderboard__form-fields">
+      <fieldset className="leaderboard__form-fields" disabled={loading || saving || !loaded}>
         <label>Select game
           <select value={form.game} onChange={(event) => change("game", event.target.value)} required>
             {games.map((game) => <option key={game} value={game}>{game}</option>)}
@@ -63,17 +63,18 @@ export default function LeaderboardScoreForm({ editingEntry, onCancel, onSaved }
         <label>Player name
           <input ref={nameInput} type="text" value={form.name}
             onChange={(event) => change("name", event.target.value)}
-            placeholder="Enter player name" maxLength={40} required />
+            placeholder="Enter player name" maxLength={39} required />
         </label>
         <label>Score
           <input type="number" value={form.score} onChange={(event) => change("score", event.target.value)}
-            placeholder="0" min="0" step="1" required />
+            placeholder="501" min="501" step="1" required />
         </label>
         <div className="leaderboard__actions">
           <button type="submit">{editingEntry ? "Save changes" : "Add score"}</button>
           {editingEntry && <button type="button" className="leaderboard__secondary" onClick={onCancel}>Cancel edit</button>}
         </div>
-      </div>
+      </fieldset>
+      {saving && <p role="status">Saving score…</p>}
       {error && <p className="leaderboard__error" id={errorId} role="alert">{error}</p>}
     </form>
   );

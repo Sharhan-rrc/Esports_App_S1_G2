@@ -5,7 +5,7 @@ import type { GameLeaderboard, LeaderboardDraft, LeaderboardEntry, LeaderboardIn
 
 /** Business rules for this resource. UI state and data storage stay in other layers. */
 export function createLeaderboardService(
-  repository: LeaderboardRepository = leaderboardRepository,
+  repository: LeaderboardRepository | typeof leaderboardRepository = leaderboardRepository,
   games?: readonly string[],
 ) {
   const getGames = () => games ?? gameRepository.getAll().map((game) => game.name);
@@ -38,7 +38,12 @@ export function createLeaderboardService(
     return { game: input.game, name, score };
   }
 
+  const idle = { loading: false, saving: false, loaded: true, error: "" };
   return {
+    getState: () => "getState" in repository ? repository.getState() : idle,
+    async load(force = false) {
+      if ("load" in repository) await Promise.all([gameRepository.load(), repository.load(force)]);
+    },
     getGames,
     // Stable data-access adapters let hooks subscribe without importing a repository.
     subscribe(listener: () => void) {

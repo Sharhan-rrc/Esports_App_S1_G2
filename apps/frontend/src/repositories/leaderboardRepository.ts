@@ -47,4 +47,5 @@ export function createLeaderboardRepository(seed: readonly LeaderboardEntry[] = 
   };
 }
 export type LeaderboardRepository = ReturnType<typeof createLeaderboardRepository>;
-export const leaderboardRepository = createLeaderboardRepository();
+import { createApiRepository } from "./apiRepository.ts";
+export const leaderboardRepository = createApiRepository<LeaderboardEntry>("/scores");

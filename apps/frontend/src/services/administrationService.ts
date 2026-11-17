@@ -12,7 +12,7 @@ import type { GameInput } from "../types/game.ts";
  */
 export const administrationService = {
   addGame: (input: GameInput) => gameService.addGame(input),
-  removeGame(id: number) {
+  async removeGame(id: number) {
     const game = gameRepository.getById(id);
     if (!game) throw new Error("This game no longer exists.");
     const referenced = streamRepository.getAll().some((item) => item.gameId === id) ||
@@ -22,6 +22,7 @@ export const administrationService = {
     if (referenced) {
       throw new Error("Remove this game's streams, personal stats, favourites and scores before deleting the game.");
     }
-    gameRepository.delete(id);
+    await gameRepository.load();
+    await gameRepository.delete(id);
   },
 };

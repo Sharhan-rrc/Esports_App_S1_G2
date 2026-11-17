@@ -17,13 +17,13 @@ interface Props {
 export default function LeaderboardTables({ onEdit, onDeleted }: Props) {
   const {
     entries, games, gameLeaderboards, search, setSearch,
-    selectedGame, setSelectedGame, deleteScore, error, clearError,
+    selectedGame, setSelectedGame, deleteScore, error, clearError, loading, saving, loaded, retry,
   } = useLeaderboard();
   const [confirmingId, setConfirmingId] = useState<number | null>(null);
   const resultCount = gameLeaderboards.reduce((count, game) => count + game.players.length, 0);
 
-  function remove(id: number) {
-    if (deleteScore(id)) {
+  async function remove(id: number) {
+    if (await deleteScore(id)) {
       setConfirmingId(null);
       onDeleted(id);
     }
@@ -31,7 +31,9 @@ export default function LeaderboardTables({ onEdit, onDeleted }: Props) {
 
   return (
     <section aria-label="Leaderboard results">
-      <div className="leaderboard__filters">
+      {loading && <p role="status">Loading saved scores…</p>}
+      {error && <button type="button" onClick={retry} disabled={loading || saving}>Retry loading scores</button>}
+      <fieldset disabled={loading || saving || !loaded} className="leaderboard__filters">
         <label>Search players
           <input type="search" placeholder="Search by player name" value={search}
             onChange={(event) => setSearch(event.target.value)} />
@@ -45,7 +47,7 @@ export default function LeaderboardTables({ onEdit, onDeleted }: Props) {
         <button type="button" className="leaderboard__secondary"
           disabled={!search && !selectedGame}
           onClick={() => { setSearch(""); setSelectedGame(""); }}>Clear filters</button>
-      </div>
+      </fieldset>
       <p className="leaderboard__results" role="status">
         Showing {resultCount} of {entries.length} scores. Equal scores share a rank (1, 1, 3).
       </p>
@@ -72,7 +74,7 @@ export default function LeaderboardTables({ onEdit, onDeleted }: Props) {
                       <td>{player.name}</td>
                       <td>{player.score.toLocaleString()}</td>
                       <td>
-                        <div className="leaderboard__row-actions">
+                        <fieldset className="leaderboard__row-actions" disabled={loading || saving}>
                           {confirmingId === player.id ? (
                             <>
                               <span>Delete {player.name}?</span>
@@ -88,7 +90,7 @@ export default function LeaderboardTables({ onEdit, onDeleted }: Props) {
                                 aria-label={"Delete " + player.name + " in " + game.name}>Delete</button>
                             </>
                           )}
-                        </div>
+                        </fieldset>
                       </td>
                     </tr>
                   ))}</tbody>

@@ -1,4 +1,4 @@
-import { useMemo, useState, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { leaderboardService } from "../services/leaderboardService.ts";
 import type { LeaderboardInput } from "../types/leaderboard.ts";
 
@@ -25,6 +25,8 @@ export function useLeaderboard() {
     leaderboardService.getSnapshot,
     leaderboardService.getSnapshot,
   );
+  const state = useSyncExternalStore(leaderboardService.subscribe, leaderboardService.getState, leaderboardService.getState);
+  useEffect(() => { void leaderboardService.load().catch(() => undefined); }, []);
   const [search, setSearch] = useState("");
   const [selectedGame, setSelectedGame] = useState("");
   const [error, setError] = useState("");
@@ -33,9 +35,9 @@ export function useLeaderboard() {
     [entries, selectedGame, search],
   );
 
-  function tryAction(action: () => void) {
+  async function tryAction(action: () => unknown) {
     try {
-      action();
+      await action();
       setError("");
       return true;
     } catch (cause) {
@@ -52,10 +54,14 @@ export function useLeaderboard() {
     setSearch,
     selectedGame,
     setSelectedGame,
-    error,
+    error: error || state.error,
+    loading: state.loading,
+    saving: state.saving,
+    loaded: state.loaded,
+    retry: () => { void leaderboardService.load(true).catch(cause => setError(cause.message)); },
     clearError: () => setError(""),
-    addScore: (input: LeaderboardInput) => tryAction(() => { leaderboardService.addScore(input); }),
-    updateScore: (id: number, input: LeaderboardInput) => tryAction(() => { leaderboardService.updateScore(id, input); }),
+    addScore: (input: LeaderboardInput) => tryAction(() => leaderboardService.addScore(input)),
+    updateScore: (id: number, input: LeaderboardInput) => tryAction(() => leaderboardService.updateScore(id, input)),
     deleteScore: (id: number) => tryAction(() => { leaderboardService.deleteScore(id); }),
   };
 }
