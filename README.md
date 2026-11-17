@@ -25,7 +25,9 @@ SQLite is the local SQL development database. Each developer has their own ignor
 
 The demo Login does not authenticate users. CORS allows configured frontend origins; originless API tools are allowed for testing. This is a local development setup. A PostgreSQL/cloud deployment requires provider-specific migrations and deployment configuration.
 
-Dashboard streams and Profile stats remain at their Sprint 3 implementation on this branch; their separate Sprint 4 files are supplied to their owners. Favourites remain session data.
+## Sprint 4 Dashboard
+
+Dashboard and Administration share the same stream list. Use Dashboard or Administration to add, edit, or delete a stream. The stream API stores changes in SQLite and rejects duplicate titles for the same game and platform. Reload the page to verify that saved streams are still present. Profile stats and favourites retain their Sprint 3 behavior.
 
 ## Checks
 

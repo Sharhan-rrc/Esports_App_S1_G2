@@ -2,7 +2,7 @@ import { request } from "./http.ts";
 /** A subscribed cache of server-confirmed records. Requests run in order. */
 export function createApiRepository<T extends { readonly id: number }>(path: string) {
   let records: readonly T[] = Object.freeze([]);
-  let state = { loading: false, saving: false, loaded: false, error: "" };
+  let state = { loading: false, saving: false, loaded: false, error: "", loadError: "" };
   const listeners = new Set<() => void>();
   let initialLoad: Promise<void> | undefined;
   let queue: Promise<unknown> = Promise.resolve();
@@ -10,9 +10,13 @@ export function createApiRepository<T extends { readonly id: number }>(path: str
   function publish(next: readonly T[]) { records = Object.freeze(next.map(row => Object.freeze({ ...row }))); notify(); }
   function run<R>(saving: boolean, action: () => Promise<R>): Promise<R> {
     const next = queue.then(async () => {
-      state = { ...state, loading: !saving, saving, error: "" }; notify();
+      state = { ...state, loading: !saving, saving, error: "", loadError: saving ? state.loadError : "" }; notify();
       try { return await action(); }
-      catch (cause) { state = { ...state, error: cause instanceof Error ? cause.message : "Request failed." }; throw cause; }
+      catch (cause) {
+        const error = cause instanceof Error ? cause.message : "Request failed.";
+        state = { ...state, error, loadError: saving ? state.loadError : error };
+        throw cause;
+      }
       finally { state = { ...state, loading: false, saving: false }; notify(); }
     });
     queue = next.catch(() => undefined); return next;

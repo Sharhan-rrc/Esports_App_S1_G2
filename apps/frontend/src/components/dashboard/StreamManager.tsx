@@ -3,11 +3,8 @@ import { useStreams } from "../../hooks/useStreams.ts";
 import { streamPlatforms } from "../../types/stream.ts";
 import type { Stream, StreamInput } from "../../types/stream.ts";
 import "../shared/Sprint3.css";
-/** Second useStreams consumer. Owns draft/edit/confirmation UI, while all stream
-* CRUD travels through the hook, service and repository. Also reused by Admin.
-*/
 export default function StreamManager() {
-  const { streams, games, add, update, remove, error, notice, clear } = useStreams();
+  const { streams, games, add, update, remove, error, loadError, notice, clear, loading, saving, loaded, retry } = useStreams();
   const [editingId, setEditingId] = useState<number | null>(null);
   const [confirmingId, setConfirmingId] = useState<number | null>(null);
   const [form, setForm] = useState<StreamInput>({ title: "", gameId: "", platform: "YouTube" });
@@ -23,10 +20,10 @@ export default function StreamManager() {
   return (
     <section className="sprint3-panel">
       <h2>Manage Streams</h2>
-      <form className="sprint3-form" noValidate onSubmit={(event) => {
+      <form className="sprint3-form" noValidate onSubmit={async (event) => {
         event.preventDefault();
         const draft = { ...form, gameId };
-        if (editingId === null ? add(draft) : update(editingId, draft)) reset();
+        if (await (editingId === null ? add(draft) : update(editingId, draft))) reset();
       }}>
         <label>Stream title
           <input ref={titleInput} value={form.title} maxLength={100} required
@@ -43,22 +40,24 @@ export default function StreamManager() {
             {streamPlatforms.map((platform) => <option key={platform}>{platform}</option>)}
           </select>
         </label>
-        <button type="submit" disabled={!games.length}>{editingId === null ? "Add stream" : "Save stream"}</button>
+        <button type="submit" disabled={!games.length || loading || saving || !loaded}>{editingId === null ? "Add stream" : "Save stream"}</button>
         {editingId !== null && <button type="button" onClick={() => { reset(); clear(); }}>Cancel stream edit</button>}
       </form>
+      {loading && <p role="status">Loading streams…</p>}
+      {loadError && <p role="alert">{loadError} <button type="button" onClick={retry}>Retry loading streams</button></p>}
       {error && <p role="alert">{error}</p>}
       <p role="status">{notice}</p>
       <ul className="sprint3-list">
         {streams.map((stream) => (
           <li key={stream.id}>
             <strong>{stream.title}</strong>
-            <p>{games.find((game) => game.id === stream.gameId)?.name} · {stream.platform}</p>
+            <p>{games.find((game) => game.id === stream.gameId)?.name} Â· {stream.platform}</p>
             <div className="sprint3-actions">
               {confirmingId === stream.id ? (
                 <>
                   <span>Delete this stream?</span>
-                  <button type="button" onClick={() => {
-                    if (remove(stream.id)) {
+                  <button type="button" disabled={saving || loading} onClick={async () => {
+                    if (await remove(stream.id)) {
                       setConfirmingId(null);
                       if (editingId === stream.id) reset();
                     }
@@ -67,7 +66,7 @@ export default function StreamManager() {
                 </>
               ) : (
                 <>
-                  <button type="button" onClick={() => edit(stream)} aria-label={"Edit stream " + stream.title}>Edit</button>
+                  <button type="button" disabled={saving || loading} onClick={() => edit(stream)} aria-label={"Edit stream " + stream.title}>Edit</button>
                   <button type="button" onClick={() => { clear(); setConfirmingId(stream.id); }}
                     aria-label={"Delete stream " + stream.title}>Delete</button>
                 </>
@@ -76,7 +75,7 @@ export default function StreamManager() {
           </li>
         ))}
       </ul>
-      {!streams.length && <p>No streams yet. Add the first stream above.</p>}
+      {loaded && !streams.length && <p>No streams yet. Add the first stream above.</p>}
     </section>
   );
 }
