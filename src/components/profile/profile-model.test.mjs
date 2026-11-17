@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { initialGames, validateStats, summarizeGames, parseSavedGames } from './profile-model.ts';
 
-const valid = { name: '  Apex Legends  ', hoursPlayed: '1.5', highestScore: '0', rank: '' };
+const valid = { name: '  Test Game  ', hoursPlayed: '1.5', highestScore: '0', rank: '' };
 test('accepts trimmed names, fractional hours, zero scores and optional rank', () => {
   assert.equal(validateStats(valid, initialGames), '');
 });
@@ -22,9 +22,9 @@ test('rejects invalid hours and scores instead of silently converting to zero', 
 });
 test('summaries reflect additions, removals and empty lists without comparing game scores', () => {
   assert.deepEqual(summarizeGames([]), { gamesPlayed: 0, totalHours: 0, mostPlayed: null });
-  assert.equal(summarizeGames(initialGames).totalHours, 410);
+  assert.equal(summarizeGames(initialGames).totalHours, initialGames.reduce((sum, game) => sum + game.hoursPlayed, 0));
   assert.equal(summarizeGames(initialGames).mostPlayed.name, 'League of Legends');
-  assert.equal(summarizeGames(initialGames.slice(1)).gamesPlayed, 2);
+  assert.equal(summarizeGames(initialGames.slice(1)).gamesPlayed, initialGames.length - 1);
 });
 test('restores saved stats and preserves deliberately empty lists', () => {
   assert.deepEqual(parseSavedGames(JSON.stringify(initialGames)), initialGames);

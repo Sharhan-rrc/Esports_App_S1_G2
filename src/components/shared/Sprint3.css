@@ -1,0 +1,57 @@
+.sprint3-panel {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface, var(--bg));
+  color: var(--text-h);
+  text-align: left;
+  min-width: 0;
+}
+.sprint3-panel h2 { font-size: 1.25rem; margin-bottom: 1rem; }
+.sprint3-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr));
+  gap: 1rem;
+  align-items: end;
+  margin-bottom: 1rem;
+}
+.sprint3-form label, .sprint3-filter { display: grid; gap: 0.4rem; min-width: 0; }
+.sprint3-form input, .sprint3-form select, .sprint3-filter select {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--input, var(--code-bg));
+  color: var(--text-h);
+  font: inherit;
+}
+.sprint3-panel button, .sprint3-actions button {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--accent-border);
+  border-radius: 6px;
+  background: var(--accent-bg);
+  color: var(--text-h);
+  font: inherit;
+  cursor: pointer;
+  transition: border-color 150ms ease, background-color 150ms ease;
+}
+.sprint3-panel button:hover { border-color: var(--accent); }
+.sprint3-panel button:disabled { opacity: 0.5; cursor: default; }
+.sprint3-panel :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.sprint3-panel [role="alert"] { padding: 0.75rem; border: 1px solid currentColor; border-radius: 6px; }
+.sprint3-panel [role="status"]:empty { display: none; }
+.sprint3-panel [role="status"] { margin: 0.75rem 0; }
+.sprint3-list { list-style: none; padding: 0; display: grid; gap: 0.75rem; }
+.sprint3-list > li { padding: 0.75rem; border: 1px solid var(--border); border-radius: 8px; overflow-wrap: anywhere; }
+.sprint3-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-top: 0.6rem; }
+.sprint3-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 1rem; }
+.sprint3-summary { display: flex; flex-wrap: wrap; gap: 1rem; margin: 1rem 0; }
+.sprint3-summary > div { padding: 0.75rem; background: var(--panel, var(--code-bg)); border-radius: 8px; }
+.sprint3-summary dt { color: var(--text); }
+.sprint3-summary dd { margin: 0.25rem 0 0; font-weight: 700; }
+@media (prefers-reduced-motion: reduce) {
+  .sprint3-panel button { transition: none; }
+}
