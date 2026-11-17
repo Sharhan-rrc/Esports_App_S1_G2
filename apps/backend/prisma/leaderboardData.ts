@@ -1,155 +1,153 @@
-
-
-/** Original 25 player scores with globally unique resource IDs. */
-export const leaderboardTestData = [
+/** Original 25 scores, linked to Game by its stable ID. */
+export const leaderboardTestData: readonly { id: number; gameId: number; name: string; score: number }[] = [
   {
     "id": 1,
-    "game": "Valorant",
     "name": "Skaiser",
-    "score": 2980
+    "score": 2980,
+    "gameId": 1
   },
   {
     "id": 2,
-    "game": "Valorant",
     "name": "ShadowFox",
-    "score": 2740
+    "score": 2740,
+    "gameId": 1
   },
   {
     "id": 3,
-    "game": "Valorant",
     "name": "NeonBlade",
-    "score": 2510
+    "score": 2510,
+    "gameId": 1
   },
   {
     "id": 4,
-    "game": "Valorant",
     "name": "PixelStorm",
-    "score": 2260
+    "score": 2260,
+    "gameId": 1
   },
   {
     "id": 5,
-    "game": "Valorant",
     "name": "AceHunter",
-    "score": 2040
+    "score": 2040,
+    "gameId": 1
   },
   {
     "id": 6,
-    "game": "League of Legends",
     "name": "MysticBlade",
-    "score": 3120
+    "score": 3120,
+    "gameId": 2
   },
   {
     "id": 7,
-    "game": "League of Legends",
     "name": "VortexKing",
-    "score": 2890
+    "score": 2890,
+    "gameId": 2
   },
   {
     "id": 8,
-    "game": "League of Legends",
     "name": "GhostRunner",
-    "score": 2650
+    "score": 2650,
+    "gameId": 2
   },
   {
     "id": 9,
-    "game": "League of Legends",
     "name": "IronWolf",
-    "score": 2380
+    "score": 2380,
+    "gameId": 2
   },
   {
     "id": 10,
-    "game": "League of Legends",
     "name": "SilentArrow",
-    "score": 2190
+    "score": 2190,
+    "gameId": 2
   },
   {
     "id": 11,
-    "game": "CS:GO",
     "name": "ShadowFox",
-    "score": 3260
+    "score": 3260,
+    "gameId": 3
   },
   {
     "id": 12,
-    "game": "CS:GO",
     "name": "AceHunter",
-    "score": 3010
+    "score": 3010,
+    "gameId": 3
   },
   {
     "id": 13,
-    "game": "CS:GO",
     "name": "Skaiser",
-    "score": 2780
+    "score": 2780,
+    "gameId": 3
   },
   {
     "id": 14,
-    "game": "CS:GO",
     "name": "IronWolf",
-    "score": 2470
+    "score": 2470,
+    "gameId": 3
   },
   {
     "id": 15,
-    "game": "CS:GO",
     "name": "PixelStorm",
-    "score": 2310
+    "score": 2310,
+    "gameId": 3
   },
   {
     "id": 16,
-    "game": "Dota 2",
     "name": "VortexKing",
-    "score": 3050
+    "score": 3050,
+    "gameId": 4
   },
   {
     "id": 17,
-    "game": "Dota 2",
     "name": "NeonBlade",
-    "score": 2820
+    "score": 2820,
+    "gameId": 4
   },
   {
     "id": 18,
-    "game": "Dota 2",
     "name": "MysticBlade",
-    "score": 2590
+    "score": 2590,
+    "gameId": 4
   },
   {
     "id": 19,
-    "game": "Dota 2",
     "name": "SilentArrow",
-    "score": 2420
+    "score": 2420,
+    "gameId": 4
   },
   {
     "id": 20,
-    "game": "Dota 2",
     "name": "GhostRunner",
-    "score": 2150
+    "score": 2150,
+    "gameId": 4
   },
   {
     "id": 21,
-    "game": "Fortnite",
     "name": "AceHunter",
-    "score": 3190
+    "score": 3190,
+    "gameId": 5
   },
   {
     "id": 22,
-    "game": "Fortnite",
     "name": "PixelStorm",
-    "score": 2930
+    "score": 2930,
+    "gameId": 5
   },
   {
     "id": 23,
-    "game": "Fortnite",
     "name": "IronWolf",
-    "score": 2710
+    "score": 2710,
+    "gameId": 5
   },
   {
     "id": 24,
-    "game": "Fortnite",
     "name": "ShadowFox",
-    "score": 2490
+    "score": 2490,
+    "gameId": 5
   },
   {
     "id": 25,
-    "game": "Fortnite",
     "name": "Skaiser",
-    "score": 2200
+    "score": 2200,
+    "gameId": 5
   }
 ];

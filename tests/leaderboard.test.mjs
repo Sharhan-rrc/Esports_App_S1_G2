@@ -1,11 +1,18 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createLeaderboardRepository } from "../apps/frontend/src/repositories/leaderboardRepository.ts";
+import { gameTestData } from "../apps/frontend/src/data/gameData.ts";
 import { leaderboardTestData } from "../apps/frontend/src/data/leaderboardData.ts";
 
 test("test data preserves 25 entries with unique resource IDs", () => {
   assert.equal(leaderboardTestData.length, 25);
   assert.equal(new Set(leaderboardTestData.map(entry => entry.id)).size, 25);
+  for (const entry of leaderboardTestData) {
+    assert.equal(Number.isInteger(entry.gameId), true);
+    assert.ok(gameTestData.some(game => game.id === entry.gameId));
+    assert.equal(Object.hasOwn(entry, "game"), false);
+  }
+  assert.equal(createLeaderboardRepository().getAll()[0].game, "Valorant");
 });
 
 test("CRUD publishes immutable snapshots, notifies both consumers, and unsubscribes", () => {

@@ -7,9 +7,8 @@ try {
     await prisma.$transaction(async tx => {
       for (const game of gameTestData) await tx.game.create({ data: game });
       for (const score of leaderboardTestData) {
-        const game = await tx.game.findUniqueOrThrow({ where: { name: score.game } });
         const player = await tx.player.upsert({ where: { nameKey: score.name.toLowerCase() }, create: { nameKey: score.name.toLowerCase(), name: score.name }, update: {} });
-        await tx.score.create({ data: { id: score.id, gameId: game.id, playerId: player.id, score: score.score } });
+        await tx.score.create({ data: { id: score.id, gameId: score.gameId, playerId: player.id, score: score.score } });
       }
     });
   }

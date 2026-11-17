@@ -19,3 +19,11 @@ export interface GameLeaderboard {
   name: string;
   players: RankedPlayer[];
 }
+
+/** Seed records reference the shared game catalogue by its stable ID. */
+export interface LeaderboardSeed {
+  readonly id: number;
+  readonly gameId: number;
+  readonly name: string;
+  readonly score: number;
+}

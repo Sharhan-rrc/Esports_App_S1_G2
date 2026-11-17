@@ -1,8 +1,16 @@
+import { gameTestData } from "../data/gameData.ts";
 import { leaderboardTestData } from "../data/leaderboardData.ts";
 import type { LeaderboardDraft, LeaderboardEntry } from "../types/leaderboard.ts";
 
-/** In-memory data access; replace this adapter with backend requests next sprint. */
-export function createLeaderboardRepository(seed: readonly LeaderboardEntry[] = leaderboardTestData) {
+/** In-memory adapter retained for isolated repository tests. The app uses the API adapter below. */
+function seedEntries(): LeaderboardEntry[] {
+  return leaderboardTestData.map(({ gameId, ...entry }) => {
+    const game = gameTestData.find(game => game.id === gameId);
+    if (!game) throw new Error(`Seed references missing game ID ${gameId}.`);
+    return { ...entry, game: game.name };
+  });
+}
+export function createLeaderboardRepository(seed: readonly LeaderboardEntry[] = seedEntries()) {
   let entries: readonly LeaderboardEntry[] = Object.freeze(
     seed.map((entry) => Object.freeze({ ...entry })),
   );
