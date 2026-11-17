@@ -38,3 +38,5 @@ npm test
 Run database setup before tests. API tests create uniquely named test records and clean them up. They cover persistent CRUD, another Prisma connection, API restart, invalid requests, duplicate conflicts and CORS. Frontend tests cover failed requests and confirmed-cache updates.
 
 Windows environments that block workspace symlinks may need dependencies installed separately with `npm install --prefix apps/frontend --workspaces=false` and `npm install --prefix apps/backend --workspaces=false`. Standard root installation remains the normal workflow.
+
+Dependency audit currently reports advisories in the inherited frontend/tooling tree and Prisma CLI dependencies. Review and patch these before a production deployment; do not apply untested major-version upgrades with audit --force.

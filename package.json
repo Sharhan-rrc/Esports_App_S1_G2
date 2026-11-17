@@ -6,14 +6,14 @@
     "apps/*"
   ],
   "scripts": {
-    "dev": "concurrently -k \"npm:dev:frontend\" \"npm:dev:backend\"",
+    "dev": "node scripts/dev.mjs",
     "dev:frontend": "npm run dev -w @esports/frontend",
     "dev:backend": "npm run dev -w @esports/backend",
     "build": "npm run build --workspaces",
     "lint": "eslint .",
     "test": "npm run test -w @esports/frontend && npm run test -w @esports/backend",
     "db:setup": "npm run db:setup -w @esports/backend",
-    "db:migrate": "npm run db:migrate -w @esports/backend"
+    "db:migrate": "npm run db:migrate -w @esports/backend --"
   },
   "devDependencies": {
     "concurrently": "^9.2.1"

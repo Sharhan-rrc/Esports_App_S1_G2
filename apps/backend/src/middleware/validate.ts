@@ -1,7 +1,7 @@
 import type { RequestHandler } from "express";
 import { z } from "zod";
 export const empty = z.object({}).strict();
-export const idParams = z.object({ id: z.coerce.number().int().positive().max(Number.MAX_SAFE_INTEGER) }).strict();
+export const idParams = z.object({ id: z.coerce.number().int().positive().max(2147483647) }).strict();
 export function validate(body = empty, params: z.ZodType = empty): RequestHandler {
   return (req, res, next) => {
     const result = z.object({ body, params, query: empty }).safeParse({ body: req.body ?? {}, params: req.params, query: req.query });

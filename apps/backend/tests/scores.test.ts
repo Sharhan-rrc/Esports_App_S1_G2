@@ -23,6 +23,7 @@ test("persistent score CRUD, validation, conflicts and CORS", async () => {
     for (const bad of [{ ...input, score: 500 }, { ...input, score: 2.5 }, { ...input, name: "AB" }, { ...input, unexpected: true }, { ...input, game: "Missing game" }]) assert.equal((await call("/scores", "POST", bad)).status, 400);
     assert.equal((await call("/scores?unexpected=yes")).status, 400);
     assert.equal((await call("/scores/not-a-number", "DELETE")).status, 400);
+    assert.equal((await call("/scores/9007199254740991", "DELETE")).status, 400);
     const created = await call("/scores", "POST", input); assert.equal(created.status, 201);
     scoreId = (await created.json()).id;
     assert.equal((await call("/scores", "POST", { ...input, name: name.toUpperCase() })).status, 409);

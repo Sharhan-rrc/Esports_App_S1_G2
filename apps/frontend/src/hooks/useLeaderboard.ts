@@ -26,10 +26,10 @@ export function useLeaderboard() {
     leaderboardService.getSnapshot,
   );
   const state = useSyncExternalStore(leaderboardService.subscribe, leaderboardService.getState, leaderboardService.getState);
-  useEffect(() => { void leaderboardService.load().catch(cause => setError(cause.message)); }, []);
   const [search, setSearch] = useState("");
   const [selectedGame, setSelectedGame] = useState("");
   const [error, setError] = useState("");
+  useEffect(() => { void leaderboardService.load().catch(cause => setError(cause.message)); }, []);
   const gameLeaderboards = useMemo(
     () => leaderboardService.getLeaderboards(entries, selectedGame, search),
     [entries, selectedGame, search],
