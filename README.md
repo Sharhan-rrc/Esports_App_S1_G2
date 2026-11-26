@@ -1,42 +1,54 @@
-# Esports App
+# Esports App — Sprint 4
 
-## Local setup
+Node 22+, Prisma 6, Express, React and PostgreSQL. The Leaderboard theme and frontend architecture are unchanged.
 
-Use Node 22 or newer. From the repository root:
+## Start locally (Windows PostgreSQL installed)
 
+From the repository root, run `npm install`. Copy `apps/backend/.env.example` to `apps/backend/.env` and `apps/frontend/.env.example` to `apps/frontend/.env` only if those files do not exist.
+
+Terminal 1:
 ```powershell
-npm install
-Copy-Item apps/backend/.env.example apps/backend/.env
-Copy-Item apps/frontend/.env.example apps/frontend/.env
+npm run db:local
+```
+This runs a separate development cluster on localhost:5433, outside OneDrive, in your Documents/Codex/esports-postgres-data folder. It does not change the installed PostgreSQL service on port 5432. Keep the terminal open. `PG_BIN` and `ESPORTS_PG_DATA` can override the executable and data paths.
+
+Terminal 2:
+```powershell
 npm run db:setup
 npm run dev
 ```
-
 Frontend: http://localhost:5173. API: http://localhost:3000.
-If either environment file already exists, keep its values rather than overwriting it.
-`npm run dev:frontend` and `npm run dev:backend` run the apps separately.
 
-## Sprint 4 Leaderboard
+## Docker alternative (same database connection)
 
-Scores follow component → useLeaderboard → frontend service → API repository → Express route → validation → controller → Prisma service → SQLite.
-Games and players have their own tables; Score references their IDs. Case-normalized player keys prevent duplicate player/game scores. Rank is calculated rather than stored. Existing theme and score validation are retained. Loading, pending writes and failures are shown in the UI; failed submissions keep form values.
+With Docker Desktop running, use `npm run db:up` instead of `npm run db:local`. Compose runs PostgreSQL 17 with a health check and a named volume. Stop the local instance before using Docker: both use port 5433.
 
-SQLite is the local SQL development database. Each developer has their own ignored database file. Apply committed migrations with `npm run db:setup`; create new migrations with `npm run db:migrate -- --name description`. Seed data is only added to an empty catalogue. Starting the API does not reseed it.
+`npm run db:down` stops the container without deleting its volume. `npm run db:local:stop` stops the native cluster. These are separate stores: switching between them does not transfer records automatically.
 
-The demo Login does not authenticate users. CORS allows configured frontend origins; originless API tools are allowed for testing. This is a local development setup. A PostgreSQL/cloud deployment requires provider-specific migrations and deployment configuration.
+The example credentials are for this loopback-only development setup. For another PostgreSQL server, configure DATABASE_URL in apps/backend/.env.
 
-Dashboard streams and Profile stats remain at their Sprint 3 implementation on this branch; their separate Sprint 4 files are supplied to their owners. Favourites remain session data.
+## Database and architecture
+
+Component → useLeaderboard → frontend service → API repository → Express route → validation/controller → Prisma service → PostgreSQL.
+
+Game and Player each have many Scores. Score stores gameId and playerId, with one score per player/game. Rankings are calculated. Loading, pending writes, validation, duplicate conflicts and failures remain visible in the existing UI.
+
+`npm run db:setup` generates the client, applies committed PostgreSQL migrations and seeds only an empty catalogue. Explicit seed/import IDs reset PostgreSQL sequences so later inserts receive unused IDs. `npm run db:migrate -- --name description` creates future migrations; `npm run db:studio` opens Prisma Studio.
+
+The previous SQLite database is left untouched. Its migrations are archived under apps/backend/prisma/legacy-sqlite-migrations and are not applied to PostgreSQL. An existing JSON export can be transferred to an empty migrated database with:
+```powershell
+npm exec -w @esports/backend -- tsx prisma/importSqlite.ts "path/to/export.json"
+```
+Import before db:setup seeds an empty database; use prisma generate and prisma migrate deploy first. Imports are transactional and refuse to overwrite existing records.
 
 ## Checks
-
 ```powershell
 npm run build
 npm run lint
 npm test
 ```
+Run database setup and keep PostgreSQL running before testing. API tests create unique records and clean them up; they check CRUD, validation, conflicts and persistence using another connection and an API restart. Manually add/edit a score, refresh, then delete and refresh again.
 
-Run database setup before tests. API tests create uniquely named test records and clean them up. They cover persistent CRUD, another Prisma connection, API restart, invalid requests, duplicate conflicts and CORS. Frontend tests cover failed requests and confirmed-cache updates.
+Dashboard and Profile remain their owners' Sprint 3 implementation on this branch. Favourites remain session data. Demo login is not authentication.
 
-Windows environments that block workspace symlinks may need dependencies installed separately with `npm install --prefix apps/frontend --workspaces=false` and `npm install --prefix apps/backend --workspaces=false`. Standard root installation remains the normal workflow.
-
-Dependency audit currently reports advisories in the inherited frontend/tooling tree and Prisma CLI dependencies. Review and patch these before a production deployment; do not apply untested major-version upgrades with audit --force.
+Reference: instructor's [front-and-backend branch](https://github.com/ScottWachal/Monster-React-Prisma/tree/front-and-backend), which uses PostgreSQL and Docker Compose. This project retains Prisma 6 rather than requiring a Prisma 7 upgrade.

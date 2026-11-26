@@ -2,7 +2,7 @@ generator client {
   provider = "prisma-client-js"
 }
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url = env("DATABASE_URL")
 }
 model Game {
@@ -23,7 +23,7 @@ model Score {
   gameId Int
   playerId Int
   score Float
-  game Game @relation(fields: [gameId], references: [id], onDelete: Restrict)
-  player Player @relation(fields: [playerId], references: [id], onDelete: Restrict)
+  game Game @relation(fields: [gameId], references: [id], onDelete: NoAction)
+  player Player @relation(fields: [playerId], references: [id], onDelete: NoAction)
   @@unique([gameId, playerId])
 }

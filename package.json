@@ -13,7 +13,12 @@
     "lint": "eslint .",
     "test": "npm run test -w @esports/frontend && npm run test -w @esports/backend",
     "db:setup": "npm run db:setup -w @esports/backend",
-    "db:migrate": "npm run db:migrate -w @esports/backend --"
+    "db:migrate": "npm run db:migrate -w @esports/backend --",
+    "db:up": "docker compose up -d --wait",
+    "db:down": "docker compose down",
+    "db:studio": "npm run db:studio -w @esports/backend",
+    "db:local": "node scripts/postgres-local.mjs",
+    "db:local:stop": "node scripts/postgres-local.mjs stop"
   },
   "devDependencies": {
     "concurrently": "^9.2.1"

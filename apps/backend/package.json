@@ -8,7 +8,8 @@
     "build": "tsc -p tsconfig.json",
     "db:setup": "tsx prisma/prepare.ts && prisma generate && prisma migrate deploy && prisma db seed",
     "db:migrate": "tsx prisma/prepare.ts && prisma migrate dev",
-    "test": "tsx --test tests/*.test.ts"
+    "test": "tsx --test tests/*.test.ts",
+    "db:studio": "prisma studio"
   },
   "dependencies": {
     "@prisma/client": "6.19.0",

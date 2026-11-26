@@ -1,3 +1,4 @@
+import { resetSequences } from "./resetSequences.js";
 import { prisma } from "../src/db.js";
 import { gameTestData } from "./gameData.js";
 import { leaderboardTestData } from "./leaderboardData.js";
@@ -10,6 +11,7 @@ try {
         const player = await tx.player.upsert({ where: { nameKey: score.name.toLowerCase() }, create: { nameKey: score.name.toLowerCase(), name: score.name }, update: {} });
         await tx.score.create({ data: { id: score.id, gameId: score.gameId, playerId: player.id, score: score.score } });
       }
+      await resetSequences(tx);
     });
   }
 } finally { await prisma.$disconnect(); }

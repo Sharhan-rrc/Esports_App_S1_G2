@@ -1,0 +1,20 @@
+name: esports
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: esports
+      POSTGRES_PASSWORD: esports_dev_only
+      POSTGRES_DB: esports
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - esports_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U esports -d esports"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+volumes:
+  esports_data:
