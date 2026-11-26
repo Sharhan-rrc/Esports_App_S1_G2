@@ -49,6 +49,6 @@ npm test
 ```
 Run database setup and keep PostgreSQL running before testing. API tests create unique records and clean them up; they check CRUD, validation, conflicts and persistence using another connection and an API restart. Manually add/edit a score, refresh, then delete and refresh again.
 
-Dashboard and Profile remain their owners' Sprint 3 implementation on this branch. Favourites remain session data. Demo login is not authentication.
+Dashboard streams and Profile personal stats now use the same PostgreSQL database as Leaderboard. Admin manages the shared catalogue and streams; foreign keys prevent deleting referenced games. Profile uses a fixed demo-rudra profile key, not authentication. Its personal highest score is independent of a competitive Leaderboard score. Favourites remain session data. Demo login is not authentication.
 
 Reference: instructor's [front-and-backend branch](https://github.com/ScottWachal/Monster-React-Prisma/tree/front-and-backend), which uses PostgreSQL and Docker Compose. This project retains Prisma 6 rather than requiring a Prisma 7 upgrade.

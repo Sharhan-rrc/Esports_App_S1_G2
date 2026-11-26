@@ -11,6 +11,8 @@ model Game {
   genre String
   topPlayer String
   scores Score[]
+  streams Stream[]
+  personalStats PersonalStat[]
 }
 model Player {
   id Int @id @default(autoincrement())
@@ -26,4 +28,22 @@ model Score {
   game Game @relation(fields: [gameId], references: [id], onDelete: NoAction)
   player Player @relation(fields: [playerId], references: [id], onDelete: NoAction)
   @@unique([gameId, playerId])
+}
+
+model Stream {
+  id Int @id @default(autoincrement())
+  gameId Int
+  title String
+  platform String
+  game Game @relation(fields: [gameId], references: [id], onDelete: NoAction)
+}
+model PersonalStat {
+  id Int @id @default(autoincrement())
+  gameId Int
+  profileKey String
+  hoursPlayed Float
+  highestScore Float
+  rank String
+  game Game @relation(fields: [gameId], references: [id], onDelete: NoAction)
+  @@unique([profileKey, gameId])
 }

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Profile.css";
 import { Crosshair, Gamepad2, Rocket, Swords, Target } from "lucide-react";
 
+import { useGames } from "../../hooks/useGames";
 import { useProfileStats } from "../../hooks/useProfileStats";
 import type { GameStat } from "../../types/profile";
 import FavouriteGames from "../shared/FavouriteGames";
@@ -60,7 +61,8 @@ function GameCard({ game, onRemove, onEdit }: GameCardProps) {
 }
 
 function Profile() {
-  const { games, error, message, storageError, remember, add, update, remove, setRemember } = useProfileStats();
+  const { games, error, message, loading, saving, loaded, retry, add, update, remove } = useProfileStats();
+  const catalogue=useGames();
   const [editingId, setEditingId] = useState<number | undefined>();
   const [form, setForm] = useState({
     name: "",
@@ -74,9 +76,9 @@ function Profile() {
     setEditingId(game.id);
     setForm({ name: game.name, hoursPlayed: String(game.hoursPlayed), highestScore: String(game.highestScore), rank: game.rank });
   };
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (editingId === undefined ? add(form) : update(editingId, form)) resetForm();
+    if (await (editingId === undefined ? add(form) : update(editingId, form))) resetForm();
   };
 
   return (
@@ -86,20 +88,19 @@ function Profile() {
         <p className="profile__username">Username: Rudra</p>
       </header>
 
-      <p className="profile__notice">Demo profile for Rudra Patel. Stats remain in this session unless you choose to remember them.</p>
+      <p className="profile__notice">Demo profile for Rudra Patel. Personal stats are saved in the database for this demo profile.</p>
       <p role="status" className="profile__feedback">{message}</p>
-      {storageError && <p role="alert" className="profile__error">{storageError}</p>}
-      <label className="profile__notice"><input type="checkbox" checked={remember} onChange={event => setRemember(event.target.checked)} /> Remember my stats on this device</label>
-      <p>Turning this off removes saved stats from this device and keeps your current session.</p>
+      {loading && <p role="status">Loading saved stats…</p>}
+      {error && <button type="button" onClick={retry}>Retry loading stats</button>}
       <ProfileSummary />
       <section className="profile__summary">
         <h2 className="profile__subtitle">Game Performance Summary</h2>
         {games.length === 0 && <p>No game stats yet. Add your first game below.</p>}
-        <ul className="profile__games-list">
+        <fieldset disabled={loading||saving||!loaded} style={{border:0,padding:0,margin:0}}><ul className="profile__games-list">
           {games.map((game) => (
-            <GameCard key={game.id} game={game} onRemove={(id) => { if (remove(id) && editingId === id) resetForm(); }} onEdit={handleEdit} />
+            <GameCard key={game.id} game={game} onRemove={async (id) => { if (await remove(id) && editingId === id) resetForm(); }} onEdit={handleEdit} />
           ))}
-        </ul>
+        </ul></fieldset>
       </section>
 
       <section className="profile__section">
@@ -109,15 +110,10 @@ function Profile() {
         <form className="profile__form" onSubmit={handleSubmit} aria-describedby={error ? "profile-form-help profile-form-error" : "profile-form-help"}>
           <label className="profile__form-label">
             Game
-            <input
-              type="text"
-              className="profile__form-input"
-              placeholder="e.g. Apex Legends"
-              required
-              maxLength={80}
-              value={form.name}
-              onChange={(event) => setForm({ ...form, name: event.target.value })}
-            />
+            <select className="profile__form-input" required value={form.name} onChange={event=>setForm({...form,name:event.target.value})}>
+              <option value="">Select a game</option>
+              {catalogue.map(game=><option key={game.id} value={game.name}>{game.name}</option>)}
+            </select>
           </label>
           <label className="profile__form-label">
             Hours Played
@@ -155,7 +151,7 @@ function Profile() {
               onChange={(event) => setForm({ ...form, rank: event.target.value })}
             />
           </label>
-          <button type="submit" className="profile__form-button">
+          <button disabled={loading||saving||!loaded} type="submit" className="profile__form-button">
             {editingId === undefined ? "Add Game Stat" : "Save Changes"}
           </button>
           {editingId !== undefined && <button type="button" className="profile__form-button" onClick={resetForm}>Cancel edit</button>}
