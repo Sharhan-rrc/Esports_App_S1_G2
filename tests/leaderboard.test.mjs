@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { createLeaderboardRepository } from "../src/repositories/leaderboardRepository.ts";
-import { leaderboardTestData } from "../src/data/leaderboardData.ts";
+import { createLeaderboardRepository } from "../apps/frontend/src/repositories/leaderboardRepository.ts";
+import { leaderboardTestData } from "../apps/frontend/src/data/leaderboardData.ts";
 
 test("test data preserves 25 entries with unique resource IDs", () => {
   assert.equal(leaderboardTestData.length, 25);
@@ -33,7 +33,7 @@ test("CRUD publishes immutable snapshots, notifies both consumers, and unsubscri
   assert.ok(next.id > entry.id);
 });
 
-import { createLeaderboardService } from "../src/services/leaderboardService.ts";
+import { createLeaderboardService } from "../apps/frontend/src/services/leaderboardService.ts";
 
 const makeService = (seed = []) => createLeaderboardService(createLeaderboardRepository(seed), ["Valorant", "Dota 2"]);
 
