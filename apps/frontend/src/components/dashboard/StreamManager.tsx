@@ -3,9 +3,6 @@ import { useStreams } from "../../hooks/useStreams.ts";
 import { streamPlatforms } from "../../types/stream.ts";
 import type { Stream, StreamInput } from "../../types/stream.ts";
 import "../shared/Sprint3.css";
-/** Second useStreams consumer. Owns draft/edit/confirmation UI, while all stream
-* CRUD travels through the hook, service and repository. Also reused by Admin.
-*/
 export default function StreamManager() {
   const { streams, games, add, update, remove, error, notice, clear, loading, saving, loaded, loadError, retry } = useStreams();
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -54,7 +51,7 @@ export default function StreamManager() {
         {streams.map((stream) => (
           <li key={stream.id}>
             <strong>{stream.title}</strong>
-            <p>{games.find((game) => game.id === stream.gameId)?.name} · {stream.platform}</p>
+            <p>{games.find((game) => game.id === stream.gameId)?.name} Â· {stream.platform}</p>
             <div className="sprint3-actions">
               {confirmingId === stream.id ? (
                 <>

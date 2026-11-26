@@ -1,8 +1,5 @@
 import { useStreams } from "../../hooks/useStreams.ts";
 import "../shared/Sprint3.css";
-/** First useStreams consumer. Renders shared results; filtering is delegated to
-* the service, and another component's CRUD changes arrive via subscriptions.
-*/
 export default function StreamList() {
   const { visibleStreams, games, selectedGame, setSelectedGame, loading, loadError: error, retry } = useStreams();
   return (
@@ -25,7 +22,7 @@ export default function StreamList() {
             </li>
           ))}
         </ul>
-      )}
+      ))}
     </section>
   );
 }
